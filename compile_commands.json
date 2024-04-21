@@ -1,0 +1,81 @@
+[
+  {
+    "arguments": [
+      "/usr/lib/llvm-11/bin/clang",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/local/include/ws2811",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "test/test_LedStrip.cpp",
+      "-o",
+      "lol"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_LedStrip.cpp",
+    "output": "/home/willemv/lights-cpp/test/test_LedStrip.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-11/bin/clang",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/local/include/ws2811",
+      "src/LedState.cpp",
+      "-o",
+      "build/main"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/LedState.cpp",
+    "output": "/home/willemv/lights-cpp/src/LedState.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-11/bin/clang",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/local/include/ws2811",
+      "src/LedStrip.cpp",
+      "-o",
+      "build/main"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/LedStrip.cpp",
+    "output": "/home/willemv/lights-cpp/src/LedStrip.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-11/bin/clang",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/local/include/ws2811",
+      "src/main.cpp",
+      "-o",
+      "build/main"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/main.cpp",
+    "output": "/home/willemv/lights-cpp/src/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-11/bin/clang",
+      "-c",
+      "-Wall",
+      "-Wextra",
+      "-I/usr/local/include/ws2811",
+      "src/util.cpp",
+      "-o",
+      "build/main"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/util.cpp",
+    "output": "/home/willemv/lights-cpp/src/util.o"
+  }
+]
