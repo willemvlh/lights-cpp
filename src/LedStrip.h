@@ -1,11 +1,14 @@
 #ifndef LEDSTRIP_H
 #define LEDSTRIP_H
-#include "ws2811.h"
+#include "InterpolationCache.h"
 #include "LedState.h"
+#include "ws2811.h"
+#include <vector>
 
 class LedStrip {
 private:
   ws2811_t strip;
+  InterpolationCache interpolationCache;
   void syncLedState();
 
 public:
@@ -17,6 +20,7 @@ public:
   void render();
   void fillAll(Color color);
   void fillAll(uint32_t color);
+  // fill all leds with color over a duration, using linear interpolation.
   void fillAll(Color color, int durationInMilliseconds);
 };
 

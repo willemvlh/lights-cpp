@@ -8,9 +8,12 @@
 
 int main() {
   LedStrip *strip = new LedStrip(30);
-  strip->fillAll(0);
-  Utility::waitFor(1000);
-  strip->fillAll(Color{0x33,0,0}, 500); 
+  while (1) {
+    strip->fillAll(Color{0xFF, 0xFF, 0xFF}, 4000); 
+    Utility::waitFor(3000);
+    strip->fillAll(Color{0x00, 0x00, 0x00}, 4000); 
+  };
   delete strip;
   return 0;
+
 }
