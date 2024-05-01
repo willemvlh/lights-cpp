@@ -2,11 +2,11 @@
 #include "LedState.h"
 #include <vector>
 
-std::vector<Color> *InterpolationCache::get(Color from, Color to) {
+std::vector<Color> *InterpolationCache::get(Color from, Color to, int steps) {
   auto pair = std::pair<Color, Color>(from, to);
   auto value = this->cache.find(pair);
   if (value == this->cache.end()) {
-    auto interp = from.interpolate(to, 10);
+    auto interp = from.interpolate(to, steps);
     if (this->cache.size() < 100000) {
       this->cache[pair] = interp;
     }
