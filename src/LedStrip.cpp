@@ -2,6 +2,7 @@
 #include "LedState.h"
 #include "util.h"
 #include "ws2811.h"
+#include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstdio>
@@ -47,11 +48,11 @@ void LedStrip::render() {
 // fill all LEDs with color using linear interpolation over a certain duration.
 // calculate linear interpolation over number of steps for each LED.
 
-void LedStrip::fillAll(Color color, int durationInMilliseconds) {
+void LedStrip::fillAll(Color* colors, int durationInMilliseconds) {
   int steps = durationInMilliseconds / 30;
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
-    interpolations[i] = leds[i].color.interpolate(color, steps);
+    interpolations[i] = leds[i].color.interpolate(colors[i], steps);
   }
   for (int index = 0; index < steps; index++) {
     for (int i = 0; i < numberOfLeds; i++) {
@@ -65,7 +66,14 @@ void LedStrip::fillAll(Color color, int durationInMilliseconds) {
   }
 }
 
+void LedStrip::fillAll(Color color, int durationInMilliseconds){
+   Color colors[numberOfLeds];
+   std::fill(colors, colors + numberOfLeds, color);
+   fillAll(colors, durationInMilliseconds);
+}
+
 void LedStrip::fillAll(Color color) { fillAll(color, 0); }
+void LedStrip::fillAll(Color* colors) { fillAll(colors, 0); }
 
 void LedStrip::fillAll(uint32_t color) {
   Color color2 = {};
@@ -73,6 +81,14 @@ void LedStrip::fillAll(uint32_t color) {
   color2.green = color >> 8 & 0xff;
   color2.blue = color & 0xff;
   fillAll(color2);
+}
+
+void LedStrip::fillAll(HSL* hsl, int durationInMilliseconds){
+    Color color[numberOfLeds];
+    for (int i = 0; i < numberOfLeds; i++) {
+       color[i] = Color::fromHSL(hsl[i]);
+    }
+    fillAll(color, durationInMilliseconds);
 }
 
 std::vector<Color> Color::interpolate(Color to, int steps) {

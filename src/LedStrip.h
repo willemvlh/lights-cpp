@@ -20,8 +20,10 @@ public:
   void render();
   void fillAll(Color color);
   void fillAll(uint32_t color);
-  // fill all leds with color over a duration, using linear interpolation.
   void fillAll(Color color, int durationInMilliseconds);
+  void fillAll(Color* colors);
+  void fillAll(Color* colors, int durationInMilliseconds);
+  void fillAll(HSL* hsl, int durationInMilliseconds);
 };
 
 #endif

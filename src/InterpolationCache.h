@@ -1,27 +1,13 @@
-#ifndef INTERPOL_CACHE_H
-#define INTERPOL_CACHE_H
+#pragma once
 #include "Color.h"
-#include <vector>
 #include <unordered_map>
+#include <vector>
 
-struct ColorHash {
-  std::size_t operator()(const Color &color) const {
-    return color.red ^ color.green ^ color.blue;
-  }
-};
-
-struct ColorPairHash {
-  std::size_t operator()(const std::pair<Color, Color> pair) const {
-    return ColorHash()(pair.first) ^ ColorHash()(pair.second);
-  }
-};
 class InterpolationCache {
 private:
-  std::unordered_map<std::pair<Color, Color>, std::vector<Color>, ColorPairHash>
-      cache;
+  std::unordered_map<uint64_t, std::vector<Color>> cache;
 
 public:
-  std::vector<Color> *get(Color from, Color to, int steps);
+  std::vector<Color> *get(Color from, Color to, uint16_t steps);
   InterpolationCache();
 };
-#endif

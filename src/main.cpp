@@ -1,3 +1,4 @@
+#include "Effects.h"
 #include "LedStrip.h"
 #include "util.h"
 #include <assert.h>
@@ -7,13 +8,8 @@
 #include <thread>
 
 int main() {
-  LedStrip *strip = new LedStrip(30);
-  while (1) {
-    strip->fillAll(Color{0xFF, 0xFF, 0xFF}, 4000); 
-    Utility::waitFor(3000);
-    strip->fillAll(Color{0x00, 0x00, 0x00}, 4000); 
-  };
-  delete strip;
+  LedStrip strip(30);
+  Effects effects(&strip);
+  effects.rainbow(500000);
   return 0;
-
 }
