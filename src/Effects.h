@@ -4,7 +4,8 @@
 class Effects {
 private:
     LedStrip* _strip;
+    void shift_saturation(float factor);
  public:
      Effects(LedStrip* strip);
-     void rainbow(int durationInMilliseconds);
+     void rainbow(uint iterations);
 };

@@ -4,12 +4,13 @@
 #include <assert.h>
 #include <chrono>
 #include <ctime>
+#include <cwchar>
 #include <iostream>
 #include <thread>
 
 int main() {
   LedStrip strip(30);
   Effects effects(&strip);
-  effects.rainbow(500000);
+  effects.rainbow(500);
   return 0;
 }

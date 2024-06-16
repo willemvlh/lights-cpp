@@ -8,10 +8,8 @@
 #include <cstdio>
 #include <iostream>
 
-LedStrip::LedStrip(int leds) {
-  this->numberOfLeds = leds;
+LedStrip::LedStrip(int leds) : numberOfLeds(leds) {
   ws2811_t ledStrip = {.freq = WS2811_TARGET_FREQ, .dmanum = 10};
-
   ledStrip.channel[0].gpionum = 18;
   ledStrip.channel[0].count = leds;
   ledStrip.channel[0].strip_type = WS2811_STRIP_GRB;
