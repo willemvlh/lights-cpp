@@ -1,11 +1,11 @@
 #pragma once
 
-#include "LedStrip.h"
+#include "Strip.h"
 class Effects {
 private:
-    LedStrip* _strip;
+    Strip* _strip;
     void shift_saturation(float factor);
  public:
-     Effects(LedStrip* strip);
+     Effects(Strip* strip);
      void rainbow(uint iterations);
 };

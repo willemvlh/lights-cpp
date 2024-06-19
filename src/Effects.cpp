@@ -5,7 +5,7 @@
 #include <cwchar>
 #include <iostream>
 
-Effects::Effects(LedStrip *strip) : _strip(strip) {}
+Effects::Effects(Strip *strip) : _strip(strip) {}
 
 template <typename T> void shiftArrayRight(T *arr, size_t sz) {
   T prev;
