@@ -2,7 +2,7 @@
 #include "LedState.h"
 #include <vector>
 
-std::vector<Color> *InterpolationCache::get(Color from, Color to, uint16_t steps) {
+std::vector<Color> InterpolationCache::get(Color from, Color to, uint16_t steps) {
   uint64_t key;
   key = static_cast<uint64_t>(from.toInteger() & 0x00ffffff) << 32; 
   key = (key | to.toInteger()) << 16;
@@ -13,9 +13,9 @@ std::vector<Color> *InterpolationCache::get(Color from, Color to, uint16_t steps
     if (this->cache.size() < 100000) {
       this->cache[key] = interp;
     }
-    return &this->cache[key];
+    return this->cache[key];
   }
-  return &value->second;
+  return value->second;
 }
 
 InterpolationCache::InterpolationCache() : cache(10000){};

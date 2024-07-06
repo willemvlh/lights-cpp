@@ -10,10 +10,10 @@ TEST_CASE("LedState::ToInteger") {
 
 TEST_CASE("LedStrip::interpolate") {
   Color from = Color{0, 0, 0};
-  Color to = Color{255, 0, 0};
-  auto result = from.interpolate(to, 10);
-  CHECK(result.size() == 10);
-  CHECK(result.begin()->red == 0);
+  Color to = Color{200, 0, 0};
+  auto result = from.interpolate(to, 2);
+  CHECK(result.size() == 3);
   CHECK(result[0].red == 0);
-  CHECK(result[9].red == 255);
+  CHECK(result[1].red == 100);
+  CHECK(result[2].red == 200);
 }

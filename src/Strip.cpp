@@ -1,5 +1,6 @@
 #include "Strip.h"
 #include "LedState.h"
+#include "TimingFunction.h"
 #include "util.h"
 #include "ws2811.h"
 #include <algorithm>
@@ -16,25 +17,36 @@ Strip::Strip(int leds) : numberOfLeds(leds) {
 }
 Strip::~Strip(){};
 
-void Strip::fillAll(Color *colors, int durationInMilliseconds) {
-  int steps = durationInMilliseconds / 30;
+void Strip::fillAll(Color *colors, int durationInMilliseconds,
+                    TimingFunction &fn) {
+  int steps = std::max(1, durationInMilliseconds / 10);
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
     interpolations[i] = leds[i].color.interpolate(colors[i], steps);
   }
-  for (int index = 0; index < steps; index++) {
+  for (int step = 0; step < steps; step++) {
     for (int i = 0; i < numberOfLeds; i++) {
-      leds[i].color = interpolations[i][index];
+      int timingAdaptedStep = fn(step, steps);  
+      leds[i].color =
+          interpolations[i][timingAdaptedStep + 1]; // interpolation includes starting color,
+                                       // which we skip by doing step+1
     }
     auto start = std::chrono::high_resolution_clock::now();
     render();
     auto duration = std::chrono::high_resolution_clock::now() - start;
     auto duration_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
-    Utility::waitFor(durationInMilliseconds / steps - duration_ms);
+    if (durationInMilliseconds > 0) {
+      Utility::waitFor(durationInMilliseconds / steps - duration_ms);
+
+    }
   }
 }
 
+void Strip::fillAll(Color *colors, int durationInMilliseconds) {
+  Linear t;
+  fillAll(colors, durationInMilliseconds, t);
+}
 void Strip::fillAll(Color color, int durationInMilliseconds) {
   Color colors[numberOfLeds];
   std::fill(colors, colors + numberOfLeds, color);
@@ -52,25 +64,16 @@ void Strip::fillAll(uint32_t color) {
   fillAll(color2);
 }
 
+void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds) {
+  fillAll(&colors[0], durationInMilliseconds);
+}
+
+void Strip::fillAll(std::vector<Color> colors) { fillAll(colors, 0); }
+
 void Strip::fillAll(HSL *hsl, int durationInMilliseconds) {
   Color color[numberOfLeds];
   for (int i = 0; i < numberOfLeds; i++) {
     color[i] = Color::fromHSL(hsl[i]);
   }
   fillAll(color, durationInMilliseconds);
-}
-
-std::vector<Color> Color::interpolate(Color to, int steps) {
-  auto v = std::vector<Color>(steps);
-  float f_red = (to.red - this->red) * (1.0 / (steps - 1));
-  float f_green = (to.green - this->green) * (1.0 / (steps - 1));
-  float f_blue = (to.blue - this->blue) * (1.0 / (steps - 1));
-  for (int i = 0; i < steps; i++) {
-    char red = std::round(this->red + f_red * i);
-    char green = std::round(this->green + f_green * i);
-    char blue = std::round(this->blue + f_blue * i);
-    Color c = {red, green, blue};
-    v[i] = c;
-  }
-  return v;
 }

@@ -8,6 +8,6 @@ private:
   std::unordered_map<uint64_t, std::vector<Color>> cache;
 
 public:
-  std::vector<Color> *get(Color from, Color to, uint16_t steps);
+  std::vector<Color> get(Color from, Color to, uint16_t steps);
   InterpolationCache();
 };

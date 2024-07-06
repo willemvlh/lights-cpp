@@ -9,7 +9,7 @@ uint32_t Color::toInteger() const {
 }
 
 Color Color::fromHSL(HSL hsl) {
-  float h = hsl.hue, s = hsl.saturation, l = hsl.lightness;
+  float h = std::fmod(hsl.hue, 360.0), s = hsl.saturation, l = hsl.lightness;
   auto chroma = (1 - std::abs(2. * l - 1)) * s;
   auto hue_prime = h / 60;
   auto x = chroma * (1 - std::abs(std::fmod(hue_prime, 2) - 1));
@@ -102,18 +102,39 @@ void Color::setHSL(float hue, float sat, float lightness) {
 }
 
 void Color::setRGB(unsigned char r, unsigned char g, unsigned char b) {
-   this->red = r;
-   this->green = g;
-   this->blue = b;
+  this->red = r;
+  this->green = g;
+  this->blue = b;
 }
 
-void Color::lighten(float f){
-   auto hsl = this->toHSL();
-   auto lightness = std::max(std::min(1.0f, hsl.lightness + f), 0.0f);
-   this->setHSL(hsl.hue, hsl.saturation, lightness);
+void Color::lighten(float f) {
+  auto hsl = this->toHSL();
+  auto lightness = std::max(std::min(1.0f, hsl.lightness + f), 0.0f);
+  this->setHSL(hsl.hue, hsl.saturation, lightness);
 }
-void Color::saturate(float f){
-   auto hsl = this->toHSL();
-   auto sat = std::max(std::min(1.0f, hsl.saturation + f), 0.0f);
-   this->setHSL(hsl.hue, sat, hsl.lightness);
+void Color::saturate(float f) {
+  auto hsl = this->toHSL();
+  auto sat = std::max(std::min(1.0f, hsl.saturation + f), 0.0f);
+  this->setHSL(hsl.hue, sat, hsl.lightness);
+}
+
+std::vector<Color> Color::interpolate(Color to, int steps) {
+  if (steps < 1) {
+    throw std::invalid_argument("steps should be > 0");
+  }
+  float f_steps = static_cast<float>(steps);
+  auto v = std::vector<Color>(steps + 1);
+  v[0] = *this;
+  float f_red = (to.red - this->red) / f_steps;
+  float f_green = (to.green - this->green) / f_steps;
+  float f_blue = (to.blue - this->blue) / f_steps;
+  for (int i = 0; i < steps; i++) {
+    char red = std::round(this->red + f_red * i);
+    char green = std::round(this->green + f_green * i);
+    char blue = std::round(this->blue + f_blue * i);
+    Color c = {red, green, blue};
+    v[i] = c;
+  }
+  v[steps] = to;
+  return v;
 }

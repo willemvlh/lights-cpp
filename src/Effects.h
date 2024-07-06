@@ -4,8 +4,8 @@
 class Effects {
 private:
     Strip* _strip;
-    void shift_saturation(float factor);
  public:
      Effects(Strip* strip);
-     void rainbow(uint iterations);
+     void gradient(Color color1, Color color2, int iterations);
+     void wheel(int iterations, bool reverse);
 };

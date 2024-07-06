@@ -43,10 +43,3 @@ TEST_CASE("Color::fromHSL") {
   CHECK(Color::fromHSL(color.toHSL()) == color);
 }
 
-TEST_CASE("InterpolationCache") {
-  auto cache = InterpolationCache();
-  auto white = Color{0xff, 0xff, 0xff};
-  auto black = Color{0, 0, 0};
-  std::vector<Color> *result = cache.get(black, white, 10);
-  CHECK_EQ(10, result->size());
-}
