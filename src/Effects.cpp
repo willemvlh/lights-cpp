@@ -1,6 +1,7 @@
 #include "Effects.h"
 #include "InterpolationCache.h"
 #include "LedStrip.h"
+#include "TimingFunction.h"
 #include "util.h"
 #include <algorithm>
 #include <cassert>
@@ -45,13 +46,19 @@ template <typename T> T normalize(T value, T range_min, T range_max) {
   return value * (range_max - range_min) + range_min;
 }
 
-void Effects::gradient(Color color1, Color color2, int iterations) {
+void Effects::gradient(std::vector<Color> colors, int iterations) {
   auto cache = InterpolationCache();
-  std::vector<Color> colors =
-      cache.get(color1, color2, _strip->numberOfLeds / 2);
-  colors.insert(colors.end(), colors.rbegin(), colors.rend());
+  std::vector<Color> vec;
+  vec.reserve(_strip->numberOfLeds);
+  auto iter = vec.begin();
+  for (size_t i = 0; i < colors.size() - 1; i++) {
+    auto range = cache.get(colors[i], colors[i + 1],
+                           (_strip->numberOfLeds / (colors.size() - 1) - 1));
+    vec.insert(iter, range.begin(), range.end());
+    iter += range.size();
+  }
   for (int i = 0; i < iterations; i++) {
-    _strip->fillAll(&colors[0], 10000);
+    _strip->fillAll(vec, 10000);
     shiftHue(&colors[0], _strip->numberOfLeds, 5);
   }
 }
@@ -73,7 +80,27 @@ void Effects::wheel(int iterations, bool reverse = false) {
   }
 }
 
+void Effects::shift() {
+  float hue = 0.0;
+  Color start = Color::fromHSL({hue, 0.5, 0.5});
+  while (1) {
+    EaseOut e;
+    _strip->fillAll(start, 10000, e);
+    Utility::waitFor(5000);
+    start.setHSL(hue = Utility::wrapHue(hue + 60.0), 0.5, 0.5);
+  }
+}
 
-
-
-
+void Effects::shiftGradient() {
+  Color start{255, 0, 0};
+  Color end;
+  EaseOut timing;
+  auto cache = InterpolationCache();
+  while (1) {
+    end = start.addHue(Utility::rand_between(31.0, 75.0));
+    std::vector<Color> colors = cache.get(start, end, _strip->numberOfLeds);
+    _strip->fillAll(colors, 3000);
+    _strip->fillAll(end, 5000, timing);
+    start = end;
+  }
+}

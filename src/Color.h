@@ -16,17 +16,44 @@ public:
   unsigned char green;
   unsigned char blue;
 
-  void setHSL(float,float,float);
+  void setHSL(float, float, float);
   void setRGB(unsigned char, unsigned char, unsigned char);
 
   void lighten(float);
   void saturate(float);
-  
+
   uint32_t toInteger() const;
   HSL toHSL() const;
+
+  Color addHue(float hue);
   std::vector<Color> interpolate(Color to, int steps);
-  //operators
+  // operators
   friend std::ostream &operator<<(std::ostream &os, const Color &color);
   bool operator==(const Color &color) const;
-};
 
+  static const Color Red;
+  static const Color Green;
+  static const Color Blue;
+  static const Color Yellow;
+  static const Color Cyan;
+  static const Color Magenta;
+  static const Color Black;
+  static const Color White;
+  static const Color Gray;
+  static const Color Maroon;
+  static const Color Olive;
+  static const Color Lime;
+  static const Color Teal;
+  static const Color Navy;
+  static const Color Fuchsia;
+  static const Color Purple;
+  static const Color Silver;
+  static const Color Brown;
+  static const Color Orange;
+  static const Color Pink;
+  static const Color Gold;
+  static const Color LightGray;
+  static const Color DarkGray;
+  static const Color Beige;
+  static const Color Coral;
+};

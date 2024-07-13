@@ -7,6 +7,11 @@ TEST_CASE("Color::toInteger") {
   CHECK_EQ(0xffff0000, red.toInteger());
 }
 
+TEST_CASE("ffff00fd::toHSL") {
+  auto color = Color{0xff, 0, 0xfd};
+  CHECK(color.toHSL().hue >= 0);
+}
+
 TEST_CASE("Color::toHSL") {
   auto red = Color{0xff, 0, 0};
   auto hsl = red.toHSL();
@@ -37,9 +42,12 @@ TEST_CASE("Color::fromHSL") {
   color = Color{0, 0, 255};
   CHECK(Color::fromHSL(color.toHSL()) == color);
   color = Color{123, 213, 99};
-  CAPTURE(color.toHSL().hue);
-  CAPTURE(color.toHSL().saturation);
-  CAPTURE(color.toHSL().lightness);
   CHECK(Color::fromHSL(color.toHSL()) == color);
 }
 
+TEST_CASE("Color::addHue") {
+    Color color = Color::fromHSL({300.0, 0, 0});
+    CHECK_EQ(300.0, color.toHSL().hue);
+    auto color2 = color.addHue(50.0);
+    CHECK_EQ(350.0, color2.toHSL().hue);
+}

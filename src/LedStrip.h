@@ -2,7 +2,7 @@
 #include "InterpolationCache.h"
 #include "LedState.h"
 #include "Strip.h"
-#include "ws2811.h"
+#include "ws2811/ws2811.h"
 #include <vector>
 
 class LedStrip : public Strip {

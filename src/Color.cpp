@@ -1,14 +1,23 @@
 #include "Color.h"
+#include "util.h"
 #include <algorithm>
 #include <bits/stdint-uintn.h>
+#include <cassert>
 #include <cmath>
 #include <cstdlib>
 #include <initializer_list>
+#include <iostream>
 uint32_t Color::toInteger() const {
   return 0xff << 24 | this->red << 16 | this->green << 8 | this->blue;
 }
 
+Color Color::addHue(float hue) {
+  auto hsl = this->toHSL();
+  return Color::fromHSL({hsl.hue + hue, hsl.saturation, hsl.lightness});
+}
+
 Color Color::fromHSL(HSL hsl) {
+  assert(hsl.hue > 0);
   float h = std::fmod(hsl.hue, 360.0), s = hsl.saturation, l = hsl.lightness;
   auto chroma = (1 - std::abs(2. * l - 1)) * s;
   auto hue_prime = h / 60;
@@ -66,7 +75,7 @@ HSL Color::toHSL() const {
   if (delta == 0) {
     h = 0;
   } else if (max == r) {
-    h = std::fmod((g - b) / delta, 6);
+    h = std::abs(std::fmod((g - b) / delta, 6));
   } else if (max == g) {
     h = ((b - r) / delta) + 2;
   } else {
@@ -138,3 +147,29 @@ std::vector<Color> Color::interpolate(Color to, int steps) {
   v[steps] = to;
   return v;
 }
+
+const Color Color::Red = Color{255, 0, 0};
+const Color Color::Green = Color{0, 255, 0};
+const Color Color::Blue = Color{0, 0, 255};
+const Color Color::Yellow = Color{255, 255, 0};
+const Color Color::Cyan = Color{0, 255, 255};
+const Color Color::Magenta = Color{255, 0, 255};
+const Color Color::Black = Color{0, 0, 0};
+const Color Color::White = Color{255, 255, 255};
+const Color Color::Gray = Color{128, 128, 128};
+const Color Color::Maroon = Color{128, 0, 0};
+const Color Color::Olive = Color{128, 128, 0};
+const Color Color::Lime = Color{0, 255, 0};
+const Color Color::Teal = Color{0, 128, 128};
+const Color Color::Navy = Color{0, 0, 128};
+const Color Color::Fuchsia = Color{255, 0, 255};
+const Color Color::Purple = Color{128, 0, 128};
+const Color Color::Silver = Color{192, 192, 192};
+const Color Color::Brown = Color{165, 42, 42};
+const Color Color::Orange = Color{255, 165, 0};
+const Color Color::Pink = Color{255, 192, 203};
+const Color Color::Gold = Color{255, 215, 0};
+const Color Color::LightGray = Color{211, 211, 211};
+const Color Color::DarkGray = Color{169, 169, 169};
+const Color Color::Beige = Color{245, 245, 220};
+const Color Color::Coral = Color{255, 127, 80};

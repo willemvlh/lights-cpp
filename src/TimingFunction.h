@@ -12,6 +12,11 @@ public:
   int operator()(int step, int totalSteps) const override;
 };
 
+class EaseOut: public TimingFunction {
+public:
+  int operator()(int step, int totalSteps) const override;
+};
+
 class Linear : public TimingFunction {
 public:
   int operator()(int step, int totalSteps) const override;

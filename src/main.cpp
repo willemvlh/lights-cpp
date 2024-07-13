@@ -17,6 +17,7 @@ std::unordered_set<std::string> parse_arguments(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
+  srand(static_cast<unsigned int>(time(0))); // seed random number generator
   Strip *strip;
   auto args = parse_arguments(argc, argv);
   if (args.count("--terminal") > 0) {
@@ -26,9 +27,14 @@ int main(int argc, char **argv) {
   }
   Effects effects(strip);
   if (args.count("--gradient")) {
-    effects.gradient(Color{0xff, 51, 0x0}, Color{0xff, 191, 0x0}, 10);
+    effects.gradient(
+        std::vector<Color>{Color::Black, Color::Pink, Color::Black}, 10);
   } else if (args.count("--wheel")) {
     effects.wheel(100, false);
+  } else if (args.count("--shift")) {
+    effects.shift();
+  } else if (args.count("--shiftg")) {
+    effects.shiftGradient();
   }
   free(strip);
   return 0;

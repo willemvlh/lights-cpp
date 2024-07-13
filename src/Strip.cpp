@@ -2,7 +2,7 @@
 #include "LedState.h"
 #include "TimingFunction.h"
 #include "util.h"
-#include "ws2811.h"
+#include "ws2811/ws2811.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -19,7 +19,8 @@ Strip::~Strip(){};
 
 void Strip::fillAll(Color *colors, int durationInMilliseconds,
                     TimingFunction &fn) {
-  int steps = std::max(1, durationInMilliseconds / 10);
+  int denominator = std::stoi(Utility::readEnv("LIGHTS_STEPS_DENOMINATOR", "10"));  
+  int steps = std::max(1, durationInMilliseconds / denominator);
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
     interpolations[i] = leds[i].color.interpolate(colors[i], steps);
@@ -47,10 +48,14 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds) {
   Linear t;
   fillAll(colors, durationInMilliseconds, t);
 }
-void Strip::fillAll(Color color, int durationInMilliseconds) {
+void Strip::fillAll(Color color, int durationInMilliseconds, TimingFunction &fn) {
   Color colors[numberOfLeds];
   std::fill(colors, colors + numberOfLeds, color);
-  fillAll(colors, durationInMilliseconds);
+  fillAll(colors, durationInMilliseconds, fn);
+}
+void Strip::fillAll(Color color, int durationInMilliseconds){
+    Linear t;
+    fillAll(color, durationInMilliseconds, t);
 }
 
 void Strip::fillAll(Color color) { fillAll(color, 0); }

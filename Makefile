@@ -1,7 +1,7 @@
 CC = clang++
-CFLAGS = -Wall -Wextra -I/usr/local/include/ws2811 -g
+CFLAGS = -Wall -Wextra -I/usr/local/include -g
 CFLAGS_TEST = -I src -I lib
-LDFLAGS= -lws2811
+LDFLAGS= -lws2811 -lpaho-mqttpp3
 SRC_DIR = src
 BUILD_DIR = build
 TEST_DIR = test

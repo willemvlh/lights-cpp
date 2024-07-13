@@ -1,7 +1,7 @@
 #include "LedStrip.h"
 #include "LedState.h"
 #include "util.h"
-#include "ws2811.h"
+#include "ws2811/ws2811.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
