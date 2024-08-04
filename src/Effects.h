@@ -6,8 +6,9 @@ private:
     Strip* _strip;
  public:
      Effects(Strip* strip);
-     void gradient(std::vector<Color>, int iterations);
+     void gradient(std::vector<Color>, int durationsInMilliseconds);
      void wheel(int iterations, bool reverse);
      void shift();
-     void shiftGradient();
+     void shiftGradient(int);
+     void pulse(int durationInMilliseconds, int iterations);
 };

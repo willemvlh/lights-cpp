@@ -32,6 +32,10 @@ TEST_CASE("Color::toHSL") {
   CHECK(darkyellow.saturation < 0.33);
   CHECK(0.34 < darkyellow.lightness);
   CHECK(darkyellow.lightness < 0.35);
+
+  auto purple = Color{0x31, 0, 0x31};
+  CHECK(std::abs(300.0 - purple.toHSL().hue) < 1.0);
+  
 }
 
 TEST_CASE("Color::fromHSL") {
@@ -46,8 +50,15 @@ TEST_CASE("Color::fromHSL") {
 }
 
 TEST_CASE("Color::addHue") {
-    Color color = Color::fromHSL({300.0, 0, 0});
+    Color color = Color::fromHSL({300.0, 0.5, 0.5});
     CHECK_EQ(300.0, color.toHSL().hue);
     auto color2 = color.addHue(50.0);
-    CHECK_EQ(350.0, color2.toHSL().hue);
+    CHECK(doctest::Approx(350.0).epsilon(0.01) == color2.toHSL().hue);
 }
+
+TEST_CASE("Color::lighten"){
+    Color color = Color::fromHSL({300.0, 0,0});
+    color.lighten(0.5);
+    CHECK_EQ(doctest::Approx(0.5).epsilon(0.01), color.toHSL().lightness);
+}
+

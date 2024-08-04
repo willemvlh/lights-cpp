@@ -1,5 +1,6 @@
 CC = clang++
-CFLAGS = -Wall -Wextra -I/usr/local/include -g
+CFLAGS =  -I/usr/local/include
+CFLAGS_FULL = -g -Wall -Wextra -fsanitize=address
 CFLAGS_TEST = -I src -I lib
 LDFLAGS= -lws2811 -lpaho-mqttpp3
 SRC_DIR = src
@@ -14,6 +15,9 @@ TARGET = main
 TEST_TARGET = test
 
 all: $(TARGET)
+
+debug: CFLAGS += $(CFLAGS_FULL)
+debug: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(BUILD_DIR)/$(TARGET) $(LDFLAGS)

@@ -1,3 +1,4 @@
+#include "Show.h"
 #include "Effects.h"
 #include "LedStrip.h"
 #include "TerminalStrip.h"
@@ -25,17 +26,7 @@ int main(int argc, char **argv) {
   } else {
     strip = new LedStrip(60);
   }
-  Effects effects(strip);
-  if (args.count("--gradient")) {
-    effects.gradient(
-        std::vector<Color>{Color::Black, Color::Pink, Color::Black}, 10);
-  } else if (args.count("--wheel")) {
-    effects.wheel(100, false);
-  } else if (args.count("--shift")) {
-    effects.shift();
-  } else if (args.count("--shiftg")) {
-    effects.shiftGradient();
-  }
-  free(strip);
+  show(strip);
+  delete strip;
   return 0;
 };

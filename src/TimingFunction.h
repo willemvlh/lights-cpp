@@ -7,13 +7,21 @@ public:
   virtual int operator()(int step, int totalSteps) const = 0;
 };
 
-class EaseIn: public TimingFunction {
+class EaseIn : public TimingFunction {
+private:
+  double factor;
+
 public:
+  EaseIn(double factor) : TimingFunction(), factor(factor){};
   int operator()(int step, int totalSteps) const override;
 };
 
-class EaseOut: public TimingFunction {
+class EaseOut : public TimingFunction {
+private:
+  double factor;
+
 public:
+  EaseOut(double factor) : factor(factor){};
   int operator()(int step, int totalSteps) const override;
 };
 
