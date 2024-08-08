@@ -1,6 +1,6 @@
 CC = clang++
 CFLAGS =  -I/usr/local/include
-CFLAGS_FULL = -g -Wall -Wextra -fsanitize=address
+CFLAGS_FULL = -g -Wall -Wextra -fsanitize=address -DNODELAY -DNORENDER
 CFLAGS_TEST = -I src -I lib
 LDFLAGS= -lws2811 -lpaho-mqttpp3
 SRC_DIR = src

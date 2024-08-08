@@ -17,7 +17,10 @@ Color Color::addHue(float hue) {
 }
 
 Color Color::fromHSL(HSL hsl) {
-  assert(hsl.hue >= 0);
+    if(hsl.hue < 0){
+        std::cerr << "Bad hsl: " << hsl.hue << " " << hsl.saturation << " " << hsl.lightness; 
+        std::abort();
+    }
   float h = std::fmod(hsl.hue, 360.0), s = hsl.saturation, l = hsl.lightness;
   auto chroma = (1 - std::abs(2. * l - 1)) * s;
   auto hue_prime = h / 60;
@@ -109,16 +112,20 @@ bool Color::operator==(Color &color) const {
          this->blue == color.blue;
 }
 
-Color operator+(Color &color) const{
-
-  }
+const Color Color::operator+(const Color &color) const {
+  int red = (this->red + color.red) / 2;
+  int green = (this->green + color.green) / 2;
+  int blue = (this->blue + color.blue) / 2;
+  return Color{static_cast<char>(red), static_cast<char>(green),
+               static_cast<char>(blue)};
+}
 
 void Color::setHSL(float hue, float sat, float lightness) {
   auto color = Color::fromHSL({hue, sat, lightness});
   this->red = color.red;
   this->green = color.green;
   this->blue = color.blue;
-  if(sat == 0 || lightness == 0){
+  if (sat == 0 || lightness == 0) {
     this->hue = hue;
   }
 }
@@ -129,24 +136,28 @@ void Color::setRGB(unsigned char r, unsigned char g, unsigned char b) {
   this->blue = b;
 }
 
-void Color::setSaturation(float saturation){
+void Color::setSaturation(float saturation) {
   auto hsl = this->toHSL();
   this->setHSL(hsl.hue, saturation, hsl.lightness);
 }
-void Color::setLightness(float lightness){
+void Color::setLightness(float lightness) {
   auto hsl = this->toHSL();
   this->setHSL(hsl.hue, hsl.saturation, lightness);
 }
 
 void Color::lighten(float f) {
   auto hsl = this->toHSL();
-  auto hue = (hsl.saturation == 0 || hsl.lightness == 0) && this->hue != -1.0 ? this->hue : hsl.hue;
+  auto hue = (hsl.saturation == 0 || hsl.lightness == 0) && this->hue != -1.0
+                 ? this->hue
+                 : hsl.hue;
   auto lightness = std::max(std::min(1.0f, hsl.lightness + f), 0.0f);
   this->setHSL(hue, hsl.saturation, lightness);
 }
 void Color::saturate(float f) {
   auto hsl = this->toHSL();
-  auto hue = (hsl.saturation == 0 || hsl.lightness == 0) && this->hue != -1.0 ? this->hue : hsl.hue;
+  auto hue = (hsl.saturation == 0 || hsl.lightness == 0) && this->hue != -1.0
+                 ? this->hue
+                 : hsl.hue;
   auto sat = std::max(std::min(1.0f, hsl.saturation + f), 0.0f);
   this->setHSL(hue, sat, hsl.lightness);
 }
@@ -172,11 +183,10 @@ std::vector<Color> Color::interpolate(Color to, int steps) {
   return v;
 }
 
-Color Color::random(){
-    float hue = Utility::rand_between(0, 360);
-    return Color::fromHSL({hue, 0.8,0.5});
+Color Color::random() {
+  float hue = Utility::rand_between(0, 360);
+  return Color::fromHSL({hue, 0.8, 0.5});
 }
-
 
 const Color Color::Red = Color{255, 0, 0};
 const Color Color::Green = Color{0, 255, 0};
@@ -203,4 +213,3 @@ const Color Color::LightGray = Color{211, 211, 211};
 const Color Color::DarkGray = Color{169, 169, 169};
 const Color Color::Beige = Color{245, 245, 220};
 const Color Color::Coral = Color{255, 127, 80};
-

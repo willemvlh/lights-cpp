@@ -34,7 +34,7 @@ public:
   // operators
   friend std::ostream &operator<<(std::ostream &os, const Color &color);
   bool operator==(Color &color) const;
-  Color operator+(Color &color) const;
+  const Color operator+(const Color &color) const;
 
   static const Color Red;
   static const Color Green;

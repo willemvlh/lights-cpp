@@ -26,6 +26,11 @@ int main(int argc, char **argv) {
   } else {
     strip = new LedStrip(60);
   }
+  if(args.count("--wheel")){
+    Effects eff(strip);
+    eff.wheel(5, false);
+    eff.wheel(10, true);
+          }
   show(strip);
   delete strip;
   return 0;
