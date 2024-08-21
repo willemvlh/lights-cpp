@@ -19,6 +19,6 @@ TEST_CASE("ease out") {
   EaseOut easeOut(1.0);
   CHECK_EQ(1, easeOut(10, 100));
   CHECK_EQ(25, easeOut(50, 100));
-  easeOut = EaseIn(2.0);
-  CHECK_EQ(1, easeOut(20, 100));
+  EaseIn easeIn(2.0);
+  CHECK_EQ(1, easeIn(20, 100));
 }

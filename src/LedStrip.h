@@ -1,9 +1,7 @@
 #pragma once
-#include "InterpolationCache.h"
-#include "LedState.h"
+#if CAN_USE_STRIP
 #include "Strip.h"
 #include "ws2811/ws2811.h"
-#include <vector>
 
 class LedStrip : public Strip {
 public:
@@ -14,3 +12,4 @@ private:
   void syncLedState();
   void render() override;
 };
+#endif

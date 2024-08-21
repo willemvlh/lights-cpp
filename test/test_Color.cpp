@@ -1,5 +1,4 @@
 #include "Color.h"
-#include "InterpolationCache.h"
 #include "doctest.h"
 
 TEST_CASE("Color::toInteger") {

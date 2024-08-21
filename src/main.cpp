@@ -1,10 +1,18 @@
-#include "Show.h"
+#include <iostream>
+#ifdef __arm__
+#define CAN_USE_STRIP 1
+#else
+#define CAN_USE_STRIP 0
+#endif
+
 #include "Effects.h"
+#include "Show.h"
+#if CAN_USE_STRIP
 #include "LedStrip.h"
+#endif
 #include "TerminalStrip.h"
 #include "util.h"
 #include <cstring>
-#include <iostream>
 #include <string>
 #include <unordered_set>
 
@@ -24,9 +32,21 @@ int main(int argc, char **argv) {
   if (args.count("--terminal") > 0) {
     strip = new TerminalStrip(60);
   } else {
+#if CAN_USE_STRIP
     strip = new LedStrip(60);
+#else
+    std::cerr << "Must use --terminal option in this environment";
+    std::abort();
+#endif
   }
-  show(strip);
+  if (args.count("--wheel")) {
+    Effects eff(strip);
+    eff.wheel(5, false);
+    eff.wheel(10, true);
+  } else if (args.count("--routine4")) {
+    routine4(strip);
+  }
+  else show(strip);
   delete strip;
   return 0;
 };

@@ -1,6 +1,5 @@
 #pragma once
 #include "Gradient.h"
-#include "InterpolationCache.h"
 #include "LedState.h"
 #include "TimingFunction.h"
 #include <vector>
@@ -20,6 +19,7 @@ public:
   void fillAll(Color color, int durationInMilliseconds, TimingFunction &);
   void fillAll(Color *colors);
   void fillAll(Gradient gradient);
+  void fillAll(Gradient gradient, int durationInMilliseconds);
   void fillAll(Color *colors, int durationInMilliseconds);
   void fillAll(Color *colors, int durationInMilliseconds, TimingFunction &);
   void fillAll(std::vector<Color> colors, int durationInMilliseconds);

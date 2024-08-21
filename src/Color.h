@@ -33,8 +33,8 @@ public:
   std::vector<Color> interpolate(Color to, int steps);
   // operators
   friend std::ostream &operator<<(std::ostream &os, const Color &color);
-  bool operator==(Color &color) const;
-  Color operator+(Color &color) const;
+   bool operator==(const Color &color) const;
+  const Color operator+(const Color &color) const;
 
   static const Color Red;
   static const Color Green;

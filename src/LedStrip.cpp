@@ -1,3 +1,4 @@
+#if CAN_USE_STRIP
 #include "LedStrip.h"
 #include "LedState.h"
 #include "util.h"
@@ -37,3 +38,4 @@ void LedStrip::render() {
   syncLedState();
   ws2811_render(&strip);
 }
+#endif

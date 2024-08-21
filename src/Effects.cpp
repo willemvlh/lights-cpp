@@ -1,13 +1,9 @@
 #include "Effects.h"
 #include "InterpolationCache.h"
-#include "LedStrip.h"
 #include "TimingFunction.h"
 #include "util.h"
-#include <algorithm>
 #include <cassert>
-#include <chrono>
 #include <cwchar>
-#include <iostream>
 #include <sys/types.h>
 
 Effects::Effects(Strip *strip) : _strip(strip) {}
@@ -61,6 +57,9 @@ void Effects::wheel(int iterations, bool reverse = false) {
             normalize(1.0 / _strip->numberOfLeds *
                           ((i + shift * direction) % _strip->numberOfLeds),
                       0.0, 360.0);
+        if(hue < 0){
+            hue += 360.0;
+        }
         colors.push_back(Color::fromHSL({hue, 0.7, 0.5}));
       }
       _strip->fillAll(colors, 100);

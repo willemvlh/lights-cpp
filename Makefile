@@ -1,8 +1,11 @@
 CC = clang++
-CFLAGS =  -I/usr/local/include
-CFLAGS_FULL = -g -Wall -Wextra -fsanitize=address
-CFLAGS_TEST = -I src -I lib
-LDFLAGS= -lws2811 -lpaho-mqttpp3
+CFLAGS =  -g -I/usr/local/include -std=c++20
+CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
+CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
+ARCH := $(shell uname -m)
+ifneq ($(ARCH),x86_64)
+LD_FLAGS = -lws2811
+endif
 SRC_DIR = src
 BUILD_DIR = build
 TEST_DIR = test
@@ -32,4 +35,5 @@ $(TEST_TARGET): $(OBJS_WITHOUT_MAIN) $(TEST_OBJS)
 
 clean:
 	rm -f $(OBJS) $(BUILD_DIR/$(TARGET))
+	rm -f $(TEST_OBJS) $(BUILD_DIR/$(TARGET))
 

@@ -3,9 +3,9 @@
 #include "doctest.h"
 
 TEST_CASE("LedState::ToInteger") {
-  auto led = new LedState();
-  led->color = {0x33, 0x22, 0x11};
-  CHECK(led->toInteger() == 0xff332211);
+  LedState led;
+  led.color = {0x33, 0x22, 0x11};
+  CHECK(led.toInteger() == 0xff332211);
 }
 
 TEST_CASE("LedStrip::interpolate") {

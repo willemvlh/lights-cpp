@@ -2,12 +2,10 @@
 #include "LedState.h"
 #include "TimingFunction.h"
 #include "util.h"
-#include "ws2811/ws2811.h"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
 #include <cstdio>
-#include <iostream>
 
 Strip::Strip(int leds) : numberOfLeds(leds) {
   this->leds = new LedState[leds];
@@ -15,11 +13,12 @@ Strip::Strip(int leds) : numberOfLeds(leds) {
     this->leds[i] = {0, 0, 0};
   }
 }
-Strip::~Strip(){};
+Strip::~Strip() { delete[] this->leds; };
 
 void Strip::fillAll(Color *colors, int durationInMilliseconds,
                     TimingFunction &fn) {
-  int steps = durationInMilliseconds; //optimize later if necessary
+  int steps =
+      std::max(1, durationInMilliseconds); // optimize later if necessary
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
     interpolations[i] = leds[i].color.interpolate(colors[i], steps);
@@ -32,14 +31,18 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
                             1]; // interpolation includes starting color,
                                 // which we skip by doing step+1
     }
+#ifndef NORENDER
     auto start = std::chrono::high_resolution_clock::now();
     render();
     auto duration = std::chrono::high_resolution_clock::now() - start;
     auto duration_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+#ifndef NODELAY
     if (durationInMilliseconds > 0) {
       Utility::waitFor(durationInMilliseconds / steps - duration_ms);
     }
+#endif
+#endif
   }
 }
 
@@ -73,7 +76,8 @@ void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds) {
   fillAll(&colors[0], durationInMilliseconds);
 }
 
-void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds, TimingFunction& timing) {
+void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds,
+                    TimingFunction &timing) {
   fillAll(&colors[0], durationInMilliseconds, timing);
 }
 
@@ -94,6 +98,8 @@ std::vector<Color> Strip::colors() {
   return vec;
 }
 
-void Strip::fillAll(Gradient gradient){
-    this->fillAll(gradient.gradient_colors(this->numberOfLeds));
+void Strip::fillAll(Gradient gradient, int durationInMilliseconds) {
+  this->fillAll(gradient.gradient_colors(this->numberOfLeds),
+                durationInMilliseconds);
 }
+void Strip::fillAll(Gradient gradient) { fillAll(gradient, 0); }
