@@ -1,4 +1,3 @@
-#if CAN_USE_STRIP
 #include "LedStrip.h"
 #include "LedState.h"
 #include "util.h"
@@ -25,6 +24,7 @@ LedStrip::LedStrip(int leds) : Strip(leds) {
 
 LedStrip::~LedStrip() {
   std::cout << "Cleaning-up..." << std::endl;
+  this->fillAll({0,0,0}, 1000);
   ws2811_fini(&strip);
 }
 
@@ -38,4 +38,3 @@ void LedStrip::render() {
   syncLedState();
   ws2811_render(&strip);
 }
-#endif

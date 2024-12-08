@@ -9,13 +9,12 @@ void show(Strip *strip) {
     auto x = std::rand() % 3;
     switch (x) {
     case 0:
-      return routine1(strip);
+      routine1(strip);
     case 1:
-      return routine2(strip);
+      routine2(strip);
     case 2:
-      return routine3(strip);
+      routine3(strip);
     }
-    return;
   }
 }
 

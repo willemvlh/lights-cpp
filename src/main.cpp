@@ -7,9 +7,7 @@
 
 #include "Effects.h"
 #include "Show.h"
-#if CAN_USE_STRIP
 #include "LedStrip.h"
-#endif
 #include "TerminalStrip.h"
 #include "util.h"
 #include <cstring>
@@ -27,7 +25,7 @@ std::unordered_set<std::string> parse_arguments(int argc, char **argv) {
 
 int main(int argc, char **argv) {
   srand(static_cast<unsigned int>(time(0))); // seed random number generator
-  Strip *strip;
+  Strip *strip; 
   auto args = parse_arguments(argc, argv);
   if (args.count("--terminal") > 0) {
     strip = new TerminalStrip(60);
@@ -36,7 +34,7 @@ int main(int argc, char **argv) {
     strip = new LedStrip(60);
 #else
     std::cerr << "Must use --terminal option in this environment";
-    std::abort();
+    std::exit(-1);
 #endif
   }
   if (args.count("--wheel")) {

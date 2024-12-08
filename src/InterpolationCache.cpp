@@ -4,13 +4,8 @@
 #include <memory>
 
 InterpolationCache& InterpolationCache::current(){
-    static std::unique_ptr<InterpolationCache> instance;
-    static std::once_flag flag;
-
-    std::call_once(flag, []() {
-            instance.reset(new InterpolationCache());
-            });
-    return *instance;
+    static InterpolationCache instance;
+    return instance;
 }
 
 std::vector<Color> InterpolationCache::get(Color from, Color to, uint16_t steps) {

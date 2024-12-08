@@ -1,5 +1,4 @@
 #pragma once
-#if CAN_USE_STRIP
 #include "Strip.h"
 #include "ws2811/ws2811.h"
 
@@ -12,4 +11,3 @@ private:
   void syncLedState();
   void render() override;
 };
-#endif

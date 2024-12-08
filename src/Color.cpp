@@ -19,7 +19,7 @@ Color Color::addHue(float hue) {
 Color Color::fromHSL(HSL hsl) {
     if(hsl.hue < 0){
         std::cerr << "Bad hsl: " << hsl.hue << " " << hsl.saturation << " " << hsl.lightness; 
-        std::abort();
+        std::exit(-9);
     }
   float h = std::fmod(hsl.hue, 360.0), s = hsl.saturation, l = hsl.lightness;
   auto chroma = (1 - std::abs(2. * l - 1)) * s;

@@ -1,11 +1,8 @@
-CC = clang++
+CC = clang++-13
 CFLAGS =  -g -I/usr/local/include -std=c++20
 CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
 CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
-ARCH := $(shell uname -m)
-ifneq ($(ARCH),x86_64)
-LD_FLAGS = -lws2811
-endif
+LDFLAGS = -lws2811
 SRC_DIR = src
 BUILD_DIR = build
 TEST_DIR = test
