@@ -1,6 +1,8 @@
 #pragma once
 #include "Strip.h"
-#include "ws2811/ws2811.h"
+
+#if CAN_USE_STRIP
+  #include "ws2811/ws2811.h"
 
 class LedStrip : public Strip {
 public:
@@ -11,3 +13,11 @@ private:
   void syncLedState();
   void render() override;
 };
+
+#else
+class LedStrip : public Strip {
+public:
+    LedStrip(int leds);
+    ~LedStrip();
+};
+#endif

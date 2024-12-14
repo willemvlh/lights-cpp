@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Strip.h"
+#include "Color.h"
 class Effects {
 private:
     Strip* _strip;
@@ -11,4 +12,5 @@ private:
      void shift();
      void shiftGradient(int);
      void pulse(int durationInMilliseconds, int iterations);
+     void christmas();
 };

@@ -59,3 +59,9 @@ void routine4(Strip *strip) {
     strip->fillAll(gradient, i == 0 ? 4000 : 20000);
   }
 }
+
+void christmas(Strip *strip)
+{
+  Effects eff(strip);
+  eff.christmas();
+}

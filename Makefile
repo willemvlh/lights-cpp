@@ -3,6 +3,9 @@ CFLAGS =  -g -I/usr/local/include -std=c++20
 CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
 CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
 LDFLAGS = -lws2811
+ifeq ($(findstring microsoft,$(shell uname -r)),microsoft)
+	LDFLAGS = 
+endif
 SRC_DIR = src
 BUILD_DIR = build
 TEST_DIR = test

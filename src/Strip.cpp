@@ -39,7 +39,7 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
 #ifndef NODELAY
     if (durationInMilliseconds > 0) {
-      Utility::waitFor(durationInMilliseconds / steps - duration_ms);
+      Utility::wait(durationInMilliseconds / steps - duration_ms);
     }
 #endif
 #endif
