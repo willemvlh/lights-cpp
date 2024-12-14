@@ -1,4 +1,5 @@
 #include "Show.h"
+#include "Color.h"
 #include "Effects.h"
 #include "Strip.h"
 #include <algorithm>
@@ -58,4 +59,10 @@ void routine4(Strip *strip) {
     Gradient gradient(sampled);
     strip->fillAll(gradient, i == 0 ? 4000 : 20000);
   }
+}
+
+void routine5(Strip* strip){
+    auto colors = std::vector<HSL>{HSL{356,0.82,0.55}, HSL{23,0.6,0.82}, HSL{49,1.0,0.91}};
+    Gradient gradient(colors);
+    strip->fillAll(gradient, 1000);
 }

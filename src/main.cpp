@@ -43,6 +43,8 @@ int main(int argc, char **argv) {
     eff.wheel(10, true);
   } else if (args.count("--routine4")) {
     routine4(strip);
+  } else if (args.count("--routine5")) {
+    routine5(strip);
   }
   else show(strip);
   delete strip;
