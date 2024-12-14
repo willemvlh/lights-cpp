@@ -66,3 +66,8 @@ void routine5(Strip* strip){
     Gradient gradient(colors);
     strip->fillAll(gradient, 1000);
 }
+
+void christmas(Strip *strip){
+  Effects eff(strip);
+  eff.christmas();
+}

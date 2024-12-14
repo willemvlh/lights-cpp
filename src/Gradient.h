@@ -1,6 +1,6 @@
 #pragma once
 
-#import "Color.h"
+#include "Color.h"
 #include <vector>
 
 class Gradient {

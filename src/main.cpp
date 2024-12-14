@@ -1,10 +1,4 @@
-#include <iostream>
-#ifdef __arm__
-#define CAN_USE_STRIP 1
-#else
-#define CAN_USE_STRIP 0
-#endif
-
+#include "Constants.h"
 #include "Effects.h"
 #include "Show.h"
 #include "LedStrip.h"
@@ -13,6 +7,7 @@
 #include <cstring>
 #include <string>
 #include <unordered_set>
+#include <iostream>
 
 std::unordered_set<std::string> parse_arguments(int argc, char **argv) {
   std::unordered_set<std::string> args;
@@ -45,6 +40,8 @@ int main(int argc, char **argv) {
     routine4(strip);
   } else if (args.count("--routine5")) {
     routine5(strip);
+  } else if (args.count("--christmas")) {
+    christmas(strip);
   }
   else show(strip);
   delete strip;

@@ -5,7 +5,7 @@
 #include <ostream>
 #include <thread>
 namespace Utility {
-void waitFor(int milliseconds) {
+void wait(int milliseconds) {
   std::this_thread::sleep_for(std::chrono::milliseconds(milliseconds));
 }
 float wrapHue(float hue) { return std::fmod(hue, 360.0); }

@@ -13,7 +13,7 @@
 
 
 namespace Utility {
-void waitFor(int milliseconds);
+void wait(int milliseconds);
 float wrapHue(float hue);
 char* readEnv(const char* envVar, const char* _default);
 float rand_between(float min, float max);
