@@ -23,27 +23,35 @@ int main(int argc, char **argv) {
   Strip *strip; 
   auto args = parse_arguments(argc, argv);
   if (args.count("--terminal") > 0) {
-    strip = new TerminalStrip(60);
+    strip = new TerminalStrip(NUMBER_OF_LEDS);
   } else {
-#if CAN_USE_STRIP
-    strip = new LedStrip(60);
+#ifdef __arm__
+    strip = new LedStrip(NUMBER_OF_LEDS);
 #else
     std::cerr << "Must use --terminal option in this environment";
     std::exit(-1);
 #endif
   }
+  Show show(strip);
+  std::cout << "hello?" <<std::endl;
   if (args.count("--wheel")) {
     Effects eff(strip);
     eff.wheel(5, false);
     eff.wheel(10, true);
+  } else if (args.count("--routine2")) {
+    show.routine2();
+  } else if (args.count("--routine3")) {
+    show.routine3();
   } else if (args.count("--routine4")) {
-    routine4(strip);
+    show.routine4();
   } else if (args.count("--routine5")) {
-    routine5(strip);
-  } else if (args.count("--christmas")) {
-    christmas(strip);
+    show.routine5();
+  } else if (args.count("--routine6")) {
+    show.routine6();
+  } else if (args.count("--routine7")) {
+    show.routine7();
   }
-  else show(strip);
+  else show.run();
   delete strip;
   return 0;
 };

@@ -32,9 +32,24 @@ public:
   Color addHue(float hue);
   std::vector<Color> interpolate(Color to, int steps);
   // operators
+
   friend std::ostream &operator<<(std::ostream &os, const Color &color);
    bool operator==(const Color &color) const;
   const Color operator+(const Color &color) const;
+
+  Color(uint x) {
+    this->red = (x >> 16) & 0xff;
+    this->green = (x >> 8) & 0xff;
+    this->blue = x & 0xff;
+  };
+
+  Color(int r, int g, int b) {
+      this->red = r;
+      this->green = g;
+      this->blue = b;
+  };
+
+  Color(){};
 
   static const Color Red;
   static const Color Green;
@@ -61,7 +76,6 @@ public:
   static const Color DarkGray;
   static const Color Beige;
   static const Color Coral;
-
 
   static Color random();
 };

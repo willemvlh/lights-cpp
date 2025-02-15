@@ -1,4 +1,4 @@
-#if CAN_USE_STRIP
+#ifdef __arm__
 #include "LedStrip.h"
 #include "LedState.h"
 #include "util.h"
@@ -28,7 +28,7 @@ LedStrip::LedStrip(int leds) : Strip(leds)
 LedStrip::~LedStrip()
 {
   std::cout << "Cleaning-up..." << std::endl;
-  this->fillAll({0, 0, 0}, 1000);
+  this->fillAll(Color{0, 0, 0}, 1000);
   ws2811_fini(&strip);
 }
 

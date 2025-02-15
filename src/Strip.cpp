@@ -10,7 +10,7 @@
 Strip::Strip(int leds) : numberOfLeds(leds) {
   this->leds = new LedState[leds];
   for (int i = 0; i < leds; i++) {
-    this->leds[i] = {0, 0, 0};
+    this->leds[i] = LedState{Color{0, 0, 0}};
   }
 }
 Strip::~Strip() { delete[] this->leds; };

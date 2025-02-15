@@ -1,7 +1,7 @@
 #pragma once
 #include "Strip.h"
 
-#if CAN_USE_STRIP
+#ifdef __arm__
   #include "ws2811/ws2811.h"
 
 class LedStrip : public Strip {

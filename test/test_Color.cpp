@@ -11,6 +11,13 @@ TEST_CASE("ffff00fd::toHSL") {
   CHECK(color.toHSL().hue >= 0);
 }
 
+TEST_CASE("From integer") {
+    auto color = Color(0xff0033);
+    CHECK_EQ(0xff, color.red);
+    CHECK_EQ(0x00, color.green);
+    CHECK_EQ(0x33, color.blue);
+}
+
 TEST_CASE("Color::toHSL") {
   auto red = Color{0xff, 0, 0};
   auto hsl = red.toHSL();

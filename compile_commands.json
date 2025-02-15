@@ -5,6 +5,205 @@
       "-g",
       "-I/usr/local/include",
       "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_Color.cpp",
+      "-o",
+      "build/test_Color.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_Color.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_Color.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_Gradient.cpp",
+      "-o",
+      "build/test_Gradient.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_Gradient.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_Gradient.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_LedState.cpp",
+      "-o",
+      "build/test_LedState.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_LedState.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_LedState.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_main.cpp",
+      "-o",
+      "build/test_main.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_main.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_main.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_Strip.cpp",
+      "-o",
+      "build/test_Strip.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_Strip.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_Strip.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_TimingFunction.cpp",
+      "-o",
+      "build/test_TimingFunction.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_TimingFunction.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_TimingFunction.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-I",
+      "src",
+      "-I",
+      "lib",
+      "-Wall",
+      "-Wextra",
+      "-fsanitize=address",
+      "-c",
+      "test/test_Util.cpp",
+      "-o",
+      "build/test_Util.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/test/test_Util.cpp",
+    "output": "/home/willemv/lights-cpp/build/test_Util.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/Color.cpp",
+      "-o",
+      "build/Color.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/Color.cpp",
+    "output": "/home/willemv/lights-cpp/build/Color.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/Effects.cpp",
+      "-o",
+      "build/Effects.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/Effects.cpp",
+    "output": "/home/willemv/lights-cpp/build/Effects.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/Gradient.cpp",
+      "-o",
+      "build/Gradient.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/Gradient.cpp",
+    "output": "/home/willemv/lights-cpp/build/Gradient.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
       "-c",
       "src/InterpolationCache.cpp",
       "-o",
@@ -13,5 +212,140 @@
     "directory": "/home/willemv/lights-cpp",
     "file": "/home/willemv/lights-cpp/src/InterpolationCache.cpp",
     "output": "/home/willemv/lights-cpp/build/InterpolationCache.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/LedState.cpp",
+      "-o",
+      "build/LedState.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/LedState.cpp",
+    "output": "/home/willemv/lights-cpp/build/LedState.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/LedStrip.cpp",
+      "-o",
+      "build/LedStrip.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/LedStrip.cpp",
+    "output": "/home/willemv/lights-cpp/build/LedStrip.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/main.cpp",
+      "-o",
+      "build/main.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/main.cpp",
+    "output": "/home/willemv/lights-cpp/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/Palettes.cpp",
+      "-o",
+      "build/Palettes.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/Palettes.cpp",
+    "output": "/home/willemv/lights-cpp/build/Palettes.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/Show.cpp",
+      "-o",
+      "build/Show.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/Show.cpp",
+    "output": "/home/willemv/lights-cpp/build/Show.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/Strip.cpp",
+      "-o",
+      "build/Strip.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/Strip.cpp",
+    "output": "/home/willemv/lights-cpp/build/Strip.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/TerminalStrip.cpp",
+      "-o",
+      "build/TerminalStrip.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/TerminalStrip.cpp",
+    "output": "/home/willemv/lights-cpp/build/TerminalStrip.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/TimingFunction.cpp",
+      "-o",
+      "build/TimingFunction.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/TimingFunction.cpp",
+    "output": "/home/willemv/lights-cpp/build/TimingFunction.o"
+  },
+  {
+    "arguments": [
+      "/usr/lib/llvm-13/bin/clang",
+      "-g",
+      "-I/usr/local/include",
+      "-std=c++20",
+      "-c",
+      "src/util.cpp",
+      "-o",
+      "build/util.o"
+    ],
+    "directory": "/home/willemv/lights-cpp",
+    "file": "/home/willemv/lights-cpp/src/util.cpp",
+    "output": "/home/willemv/lights-cpp/build/util.o"
   }
 ]

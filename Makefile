@@ -2,7 +2,7 @@ CC = clang++-13
 CFLAGS =  -g -I/usr/local/include -std=c++20
 CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
 CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
-LDFLAGS = -lws2811
+LDFLAGS = -lws2811 -lpaho-mqttpp3 -lpaho-mqtt3a -lpthread
 ifeq ($(findstring microsoft,$(shell uname -r)),microsoft)
 	LDFLAGS = 
 endif
