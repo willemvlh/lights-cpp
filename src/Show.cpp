@@ -1,6 +1,7 @@
 #include "Show.h"
 #include "Color.h"
 #include "Effects.h"
+#include "Logger.h"
 #include "Strip.h"
 #include "Mqtt.h"
 #include <algorithm>
@@ -9,6 +10,7 @@
 #include <mqtt/connect_options.h>
 #include <mutex>
 #include <random>
+#include <string>
 
 using namespace std::chrono_literals;
 
@@ -17,17 +19,9 @@ Show::Show(Strip *strip)
   setup_mqtt();
 }
 
-
-bool msg_handler(const mqtt::message &msg){
-    return true;
-}
-
-
-
 void Show::setup_mqtt(){
-    std::cout << "hello?" << std::endl;
     auto& client = this->mqtt_client;
-    auto opts = mqtt::connect_options_builder::v3()
+    auto opts = mqtt::connect_options_builder()
         .keep_alive_interval(30s)
         .clean_session(false)
         .automatic_reconnect()
@@ -35,10 +29,9 @@ void Show::setup_mqtt(){
     client.start_consuming();
     auto res = client.connect(opts);
     if(!res.is_session_present()){
-        std::cout << "Subscribing..." << std::endl;
+        Logger::log("Subscribing to MQTT topic 'LIGHTS'", Debug);
         client.subscribe({"LIGHTS"}, 1);
     }
-    std::cout << "Spawning da thread" << std::endl;
     std::thread thread(listen, &(this->mqtt_client));
     thread.detach();
 }
@@ -58,6 +51,7 @@ void Show::run() {
   }
   while (1) {
     auto x = std::rand() % 7;
+    Logger::log("Starting routine " + std::to_string(x), Debug);
     switch (x) {
     case 0:
       routine1();

@@ -1,7 +1,5 @@
 #include "InterpolationCache.h"
-#include <mutex>
 #include <vector>
-#include <memory>
 
 InterpolationCache& InterpolationCache::current(){
     static InterpolationCache instance;

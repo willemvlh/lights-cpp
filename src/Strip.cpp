@@ -31,18 +31,14 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
                             1]; // interpolation includes starting color,
                                 // which we skip by doing step+1
     }
-#ifndef NORENDER
     auto start = std::chrono::high_resolution_clock::now();
-    render();
+    if(shouldRender) render();
     auto duration = std::chrono::high_resolution_clock::now() - start;
     auto duration_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
-#ifndef NODELAY
-    if (durationInMilliseconds > 0) {
+    if (durationInMilliseconds > 0 && shouldWait) {
       Utility::wait(durationInMilliseconds / steps - duration_ms);
     }
-#endif
-#endif
   }
 }
 
@@ -52,8 +48,7 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds) {
 }
 void Strip::fillAll(Color color, int durationInMilliseconds,
                     TimingFunction &fn) {
-  Color colors[numberOfLeds];
-  std::fill(colors, colors + numberOfLeds, color);
+  std::vector<Color> colors(numberOfLeds, color);
   fillAll(colors, durationInMilliseconds, fn);
 }
 void Strip::fillAll(Color color, int durationInMilliseconds) {
@@ -84,11 +79,11 @@ void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds,
 void Strip::fillAll(std::vector<Color> colors) { fillAll(colors, 0); }
 
 void Strip::fillAll(HSL *hsl, int durationInMilliseconds) {
-  Color color[numberOfLeds];
+  std::vector<Color> colors(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
-    color[i] = Color::fromHSL(hsl[i]);
+    colors[i] = Color::fromHSL(hsl[i]);
   }
-  fillAll(color, durationInMilliseconds);
+  fillAll(colors, durationInMilliseconds);
 }
 std::vector<Color> Strip::colors() {
   auto vec = std::vector<Color>(numberOfLeds);
@@ -103,3 +98,10 @@ void Strip::fillAll(Gradient gradient, int durationInMilliseconds) {
                 durationInMilliseconds);
 }
 void Strip::fillAll(Gradient gradient) { fillAll(gradient, 0); }
+
+void Strip::setRender(bool b){
+    shouldRender = b;
+
+}void Strip::setDelay(bool b){
+    shouldWait = b;
+}

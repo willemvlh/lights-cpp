@@ -27,7 +27,11 @@ public:
                TimingFunction &);
   void fillAll(std::vector<Color> colors);
   void fillAll(HSL *hsl, int durationInMilliseconds);
+  void setRender(bool);
+  void setDelay(bool);
 
 private:
   virtual void render() = 0;
+  bool shouldRender = true;
+  bool shouldWait = true;
 };

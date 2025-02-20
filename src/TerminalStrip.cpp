@@ -1,7 +1,5 @@
 #include "TerminalStrip.h"
-#include <algorithm>
 #include <cstdio>
-#include <iostream>
 
 void TerminalStrip::render() {
   for (int i = 0; i < this->numberOfLeds; i++) {

@@ -1,13 +1,12 @@
 #include "Constants.h"
 #include "Effects.h"
+#include "Logger.h"
 #include "Show.h"
-#include "LedStrip.h"
 #include "TerminalStrip.h"
-#include "util.h"
 #include <cstring>
+#include <iostream>
 #include <string>
 #include <unordered_set>
-#include <iostream>
 
 std::unordered_set<std::string> parse_arguments(int argc, char **argv) {
   std::unordered_set<std::string> args;
@@ -19,8 +18,9 @@ std::unordered_set<std::string> parse_arguments(int argc, char **argv) {
 }
 
 int main(int argc, char **argv) {
+  Logger::setLevel(Debug);
   srand(static_cast<unsigned int>(time(0))); // seed random number generator
-  Strip *strip; 
+  Strip *strip;
   auto args = parse_arguments(argc, argv);
   if (args.count("--terminal") > 0) {
     strip = new TerminalStrip(NUMBER_OF_LEDS);
@@ -32,8 +32,14 @@ int main(int argc, char **argv) {
     std::exit(-1);
 #endif
   }
+  if (args.count("--no-wait")) {
+    strip->setDelay(false);
+  }
+  if (args.count("--no-render")) {
+    strip->setRender(false);
+  }
   Show show(strip);
-  std::cout << "hello?" <<std::endl;
+  std::cout << "hello?" << std::endl;
   if (args.count("--wheel")) {
     Effects eff(strip);
     eff.wheel(5, false);
@@ -50,8 +56,8 @@ int main(int argc, char **argv) {
     show.routine6();
   } else if (args.count("--routine7")) {
     show.routine7();
-  }
-  else show.run();
+  } else
+    show.run();
   delete strip;
   return 0;
 };
