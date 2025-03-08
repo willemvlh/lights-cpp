@@ -3,6 +3,7 @@
 #include "Logger.h"
 #include "Show.h"
 #include "TerminalStrip.h"
+#include "LedStrip.h"
 #include <cstring>
 #include <iostream>
 #include <string>
