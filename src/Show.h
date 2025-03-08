@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Strip.h"
-#include <functional>
 #include <mqtt/client.h>
 #include <mutex>
 #include <queue>
@@ -14,6 +13,8 @@ private:
   static std::queue<std::string> queue;
   mqtt::client mqtt_client;
   void setup_mqtt();
+  bool should_run();
+  void pause();
 
 public:
   Show(Strip *strip);

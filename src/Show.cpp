@@ -3,10 +3,12 @@
 #include "Effects.h"
 #include "Logger.h"
 #include "Strip.h"
+#include "util.h"
 #include "Mqtt.h"
 #include <algorithm>
 #include <assert.h>
 #include <cstdlib>
+#include <ctime>
 #include <mqtt/connect_options.h>
 #include <mutex>
 #include <random>
@@ -44,12 +46,28 @@ void Show::enqueue(std::string s) {
   Show::queue.push(s);
 }
 
+bool Show::should_run(){
+  auto now = std::chrono::system_clock::now();
+  auto time = std::chrono::system_clock::to_time_t(now);
+  auto tm = std::localtime(&time);
+  return tm->tm_hour > 8;
+}
+
+void Show::pause(){
+  this->strip->fillAll(Color{23,23,23});
+  Utility::wait(1000 * 60 * 10);
+}
+
 void Show::run() {
   if (this->strip == nullptr) {
-    std::cerr << "NULL!" << std::endl;
+    std::cerr << "No strip found!" << std::endl;
     std::exit(-1);
   }
   while (1) {
+    if(!should_run()){
+      pause();
+      continue;
+    }
     auto x = std::rand() % 7;
     Logger::log("Starting routine " + std::to_string(x), Debug);
     switch (x) {

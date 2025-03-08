@@ -21,8 +21,10 @@ void Effects::pulse(int durationsInMilliseconds, int iterations) {
   }
 
   for (int i = 0; i < iterations; i++) {
-    _strip->fillAll(darkened, durationsInMilliseconds / 2);
-    _strip->fillAll(current, durationsInMilliseconds / 2);
+    EaseIn in(2);
+    EaseOut out(2);
+    _strip->fillAll(darkened, durationsInMilliseconds / 2, in);
+    _strip->fillAll(current, durationsInMilliseconds / 2, out);
   }
 };
 
@@ -54,7 +56,7 @@ void Effects::palettes_static() {
     std::vector<Color> colors =
         Utility::divide_blocks(palette, _strip->numberOfLeds);
     _strip->fillAll(colors, speed);
-    this->pulse(1900, 12);
+    this->pulse(2900, 12);
   }
 }
 
