@@ -1,7 +1,7 @@
 #include "Constants.h"
 #include "Effects.h"
 #include "Logger.h"
-#include "Show.h"
+#include "Scheduler.h"
 #include "TerminalStrip.h"
 #include "LedStrip.h"
 #include <cstring>
@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
   if (args.count("--no-render")) {
     strip->setRender(false);
   }
-  Show show(strip);
+  Scheduler show(strip);
   std::cout << "hello?" << std::endl;
   if (args.count("--wheel")) {
     Effects eff(strip);

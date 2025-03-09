@@ -5,7 +5,7 @@
 #include <mutex>
 #include <queue>
 
-class Show {
+class Scheduler {
 
 private:
   Strip *strip;
@@ -17,7 +17,7 @@ private:
   void pause();
 
 public:
-  Show(Strip *strip);
+  Scheduler(Strip *strip);
   void routine1();
   void routine2();
   void routine3();

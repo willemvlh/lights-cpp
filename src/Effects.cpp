@@ -30,7 +30,7 @@ void Effects::pulse(int durationsInMilliseconds, int iterations) {
 
 void Effects::palettes() {
   /*
-   * This should probably refactored and moved to Show.cpp
+   * This should probably refactored and moved to Scheduler.cpp
    */
   size_t count;
   int speed = Utility::rand_between(30, 120);

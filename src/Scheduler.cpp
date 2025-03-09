@@ -1,4 +1,4 @@
-#include "Show.h"
+#include "Scheduler.h"
 #include "Color.h"
 #include "Effects.h"
 #include "Logger.h"
@@ -16,12 +16,12 @@
 
 using namespace std::chrono_literals;
 
-Show::Show(Strip *strip)
+Scheduler::Scheduler(Strip *strip)
     : strip(strip), mqtt_client("tcp://192.168.0.126:1883", "LIGHTS") {
   setup_mqtt();
 }
 
-void Show::setup_mqtt(){
+void Scheduler::setup_mqtt(){
     auto& client = this->mqtt_client;
     auto opts = mqtt::connect_options_builder()
         .keep_alive_interval(30s)
@@ -38,27 +38,27 @@ void Show::setup_mqtt(){
     thread.detach();
 }
 
-std::queue<std::string> Show::queue = std::queue<std::string>();
-std::mutex Show::queue_mutex = std::mutex();
+std::queue<std::string> Scheduler::queue = std::queue<std::string>();
+std::mutex Scheduler::queue_mutex = std::mutex();
 
-void Show::enqueue(std::string s) {
-  std::lock_guard<std::mutex> lock(Show::queue_mutex);
-  Show::queue.push(s);
+void Scheduler::enqueue(std::string s) {
+  std::lock_guard<std::mutex> lock(Scheduler::queue_mutex);
+  Scheduler::queue.push(s);
 }
 
-bool Show::should_run(){
+bool Scheduler::should_run(){
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
   auto tm = std::localtime(&time);
   return tm->tm_hour > 8;
 }
 
-void Show::pause(){
+void Scheduler::pause(){
   this->strip->fillAll(Color{23,23,23});
   Utility::wait(1000 * 60 * 10);
 }
 
-void Show::run() {
+void Scheduler::run() {
   if (this->strip == nullptr) {
     std::cerr << "No strip found!" << std::endl;
     std::exit(-1);
@@ -89,7 +89,7 @@ void Show::run() {
   }
 }
 
-void Show::routine1() {
+void Scheduler::routine1() {
   auto color1 = Color::random();
   auto color2 = color1.addHue(60);
   auto interpolation = color1.interpolate(color2, strip->numberOfLeds);
@@ -102,18 +102,18 @@ void Show::routine1() {
   }
 };
 
-void Show::routine2() {
+void Scheduler::routine2() {
   Effects eff(strip);
   eff.wheel(5, false);
   eff.wheel(10, true);
 }
 
-void Show::routine3() {
+void Scheduler::routine3() {
   Effects eff(strip);
   eff.shiftGradient(13);
 }
 
-void Show::routine4() {
+void Scheduler::routine4() {
   std::random_device d;
   std::mt19937 gen(d());
 
@@ -131,18 +131,18 @@ void Show::routine4() {
   }
 }
 
-void Show::routine5() {
+void Scheduler::routine5() {
   auto colors = std::vector<HSL>{HSL{356, 0.82, 0.55}, HSL{23, 0.6, 0.82},
                                  HSL{49, 1.0, 0.91}};
   Gradient gradient(colors);
   strip->fillAll(gradient, 1000);
 }
 
-void Show::routine6() {
+void Scheduler::routine6() {
   Effects eff(strip);
   eff.palettes();
 }
-void Show::routine7() {
+void Scheduler::routine7() {
   Effects eff(strip);
   eff.palettes_static();
 }
