@@ -32,33 +32,14 @@ void Effects::palettes() {
   /*
    * This should probably refactored and moved to Scheduler.cpp
    */
-  size_t count;
-  int speed = Utility::rand_between(30, 120);
-  auto palettes = shuffled_palettes();
-  for (auto &palette : palettes) {
-    std::vector<Color> colors =
-        Utility::divide_blocks(palette, _strip->numberOfLeds);
-    for (size_t i = 0; i < 200; i++) {
-      _strip->fillAll(colors, speed);
-      Utility::shiftArrayLeft(colors);
-    }
-  }
+  
 }
 
 /*
  * Like palettes, but without lateral movement, and with pulsing
  * */
 void Effects::palettes_static() {
-  size_t count;
-  int speed = Utility::rand_between(500, 5000);
-  auto palettes = shuffled_palettes();
-  for (auto &palette : palettes) {
-    std::vector<Color> colors =
-        Utility::divide_blocks(palette, _strip->numberOfLeds);
-    _strip->fillAll(colors, speed);
-    this->pulse(2900, 12);
   }
-}
 
 void Effects::wheel(int iterations, bool reverse = false) {
   int direction = reverse ? -1 : 1;

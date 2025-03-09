@@ -1,10 +1,10 @@
 #pragma once
+#include <chrono>
 #include <iomanip>
 #include <iostream>
 #include <mutex>
 #include <ostream>
 #include <string>
-#include <chrono>
 
 enum LogLevel { Error, Info, Debug };
 
@@ -20,8 +20,24 @@ private:
     auto now = std::chrono::system_clock::now();
     std::time_t now_c = std::chrono::system_clock::to_time_t(now);
     std::lock_guard<std::mutex> lock(mutex);
+    std::string level_str;
+    switch (level) {
+    case Debug: {
+      level_str = "[Debug]";
+      break;
+    }
+    case Info: {
+      level_str = "[Info]";
+      break;
+    }
+    case Error: {
+      level_str = "[Error]";
+      break;
+    }
+    }
     if (level <= this->level) {
-      std::cerr << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S") << "  " << msg << std::endl;
+      std::cerr << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S")
+                << "  " << level_str << " " << msg << std::endl;
     }
   };
 

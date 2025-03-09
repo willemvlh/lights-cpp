@@ -20,7 +20,7 @@ float wrapHue(float hue);
 char *readEnv(const char *envVar, const char *_default);
 float rand_between(float min, float max);
 
-std::vector<Color> divide_blocks(std::vector<Color>, size_t size);
+std::vector<Color> divide_blocks(std::vector<Color>, size_t size, size_t block_size = 0);
 
 template <typename T> void shiftArrayLeft(std::vector<T> &arr) {
   for (size_t i = 0; i < arr.size() - 1; i++) {

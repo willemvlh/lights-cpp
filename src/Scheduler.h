@@ -25,6 +25,7 @@ public:
   void routine5();
   void routine6();
   void routine7();
+  void routine8();
   static void enqueue(std::string);
   void run();
 };

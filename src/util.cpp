@@ -3,8 +3,6 @@
 #include <chrono>
 #include <cmath>
 #include <cstdlib>
-#include <iostream>
-#include <ostream>
 #include <thread>
 #include <vector>
 
@@ -26,19 +24,22 @@ const char *readEnv(const char *envVar, const char *_default) {
     return _default;
   }
 }
-std::vector<Color> divide_blocks(std::vector<Color> colors, size_t size) {
+std::vector<Color> divide_blocks(std::vector<Color> colors, size_t size,
+                                 size_t block_size = 0) {
+  /*
+   * Divides a range of colors into blocks. Block size can be specified, if not
+   * it will be calculated to fill the entire range with the specified colors.
+   * */
   std::vector<Color> vector;
   vector.reserve(size);
-  size_t block_size = size / colors.size();
-  for (auto color : colors) {
-    for (size_t i = 0; i < block_size; i++) {
-      vector.push_back(color);
-    }
-  }
+  size_t actual_block_size = block_size ? block_size : size / colors.size();
   while (vector.size() < size) {
-    vector.push_back(colors.back());
+    for (auto color : colors) {
+      for (size_t i = 0; i < actual_block_size && vector.size() < size; i++) {
+        vector.push_back(color);
+      }
+    }
   }
   return vector;
 }
-
 } // namespace Utility

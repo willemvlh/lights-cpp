@@ -2,9 +2,10 @@
 #include "Color.h"
 #include "Effects.h"
 #include "Logger.h"
+#include "Mqtt.h"
+#include "Palettes_generated.h"
 #include "Strip.h"
 #include "util.h"
-#include "Mqtt.h"
 #include <algorithm>
 #include <assert.h>
 #include <cstdlib>
@@ -21,21 +22,21 @@ Scheduler::Scheduler(Strip *strip)
   setup_mqtt();
 }
 
-void Scheduler::setup_mqtt(){
-    auto& client = this->mqtt_client;
-    auto opts = mqtt::connect_options_builder()
-        .keep_alive_interval(30s)
-        .clean_session(false)
-        .automatic_reconnect()
-        .finalize();
-    client.start_consuming();
-    auto res = client.connect(opts);
-    if(!res.is_session_present()){
-        Logger::log("Subscribing to MQTT topic 'LIGHTS'", Debug);
-        client.subscribe({"LIGHTS"}, 1);
-    }
-    std::thread thread(listen, &(this->mqtt_client));
-    thread.detach();
+void Scheduler::setup_mqtt() {
+  auto &client = this->mqtt_client;
+  auto opts = mqtt::connect_options_builder()
+                  .keep_alive_interval(30s)
+                  .clean_session(false)
+                  .automatic_reconnect()
+                  .finalize();
+  client.start_consuming();
+  auto res = client.connect(opts);
+  if (!res.is_session_present()) {
+    Logger::log("Subscribing to MQTT topic 'LIGHTS'", Debug);
+    client.subscribe({"LIGHTS"}, 1);
+  }
+  std::thread thread(listen, &(this->mqtt_client));
+  thread.detach();
 }
 
 std::queue<std::string> Scheduler::queue = std::queue<std::string>();
@@ -46,30 +47,31 @@ void Scheduler::enqueue(std::string s) {
   Scheduler::queue.push(s);
 }
 
-bool Scheduler::should_run(){
+bool Scheduler::should_run() {
   auto now = std::chrono::system_clock::now();
   auto time = std::chrono::system_clock::to_time_t(now);
   auto tm = std::localtime(&time);
   return tm->tm_hour > 8;
 }
 
-void Scheduler::pause(){
-  this->strip->fillAll(Color{23,23,23});
+void Scheduler::pause() {
+  this->strip->fillAll(Color{23, 23, 23});
+  Logger::log("Pausing for 10 minutes", Info);
   Utility::wait(1000 * 60 * 10);
 }
 
 void Scheduler::run() {
-  if (this->strip == nullptr) {
+  if (!this->strip) {
     std::cerr << "No strip found!" << std::endl;
     std::exit(-1);
   }
   while (1) {
-    if(!should_run()){
+    if (!should_run()) {
       pause();
       continue;
     }
     auto x = std::rand() % 7;
-    Logger::log("Starting routine " + std::to_string(x), Debug);
+    Logger::log("Starting routine " + std::to_string(x), Info);
     switch (x) {
     case 0:
       routine1();
@@ -139,10 +141,54 @@ void Scheduler::routine5() {
 }
 
 void Scheduler::routine6() {
-  Effects eff(strip);
-  eff.palettes();
+  size_t count;
+  int speed = Utility::rand_between(30, 120);
+  auto palettes = shuffled_palettes();
+  for (auto &palette : palettes) {
+    std::vector<Color> colors =
+        Utility::divide_blocks(palette, strip->numberOfLeds);
+    for (size_t i = 0; i < 200; i++) {
+      strip->fillAll(colors, speed);
+      Utility::shiftArrayLeft(colors);
+    }
+  }
 }
 void Scheduler::routine7() {
+  size_t count;
   Effects eff(strip);
-  eff.palettes_static();
+  int speed = Utility::rand_between(500, 5000);
+  auto palettes = shuffled_palettes();
+  for (auto &palette : palettes) {
+    std::vector<Color> colors =
+        Utility::divide_blocks(palette, strip->numberOfLeds);
+    strip->fillAll(colors, speed);
+
+    eff.pulse(2900, 12);
+  }
+}
+void Scheduler::routine8() {
+  auto palettes = shuffled_palettes();
+  int block_sizes[] = {15, 10, 7, 5};
+  std::vector<palette> p;
+  for (auto &plt : palettes) {
+    std::vector<palette> interm;
+    for (int i : block_sizes) {
+      interm.push_back(Utility::divide_blocks(plt, strip->numberOfLeds, i));
+    }
+    for(auto it = interm.rbegin(); it != interm.rend(); ++it){
+      p.push_back(*it);
+    }
+    for(auto it = interm.rbegin(); it != interm.rend(); ++it){
+      p.push_back(*it);
+    }
+  }
+  Logger::log("Palettes size: " + std::to_string(p.size()), Debug);
+  for (auto i = 0; i < p.size(); ++i) {
+    strip->fillAll(p[i], 700);
+    Utility::wait(200);
+    if((i+1) % 8 == 0){
+      Logger::log("Palette end, waiting a bit longer", Debug);
+      Utility::wait(1200);
+    }
+  }
 }
