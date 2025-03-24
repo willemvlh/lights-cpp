@@ -26,7 +26,7 @@ int main(int argc, char **argv) {
   if (args.count("--terminal") > 0) {
     strip = new TerminalStrip(NUMBER_OF_LEDS);
   } else {
-#ifdef __arm__
+#ifdef USE_W2811
     strip = new LedStrip(NUMBER_OF_LEDS);
 #else
     std::cerr << "Must use --terminal option in this environment";
@@ -59,6 +59,8 @@ int main(int argc, char **argv) {
     show.routine7();
   } else if (args.count("--routine8")) {
     show.routine8();
+  } else if (args.count("--routine9")) {
+    show.routine9();
   } else
     show.run();
   delete strip;

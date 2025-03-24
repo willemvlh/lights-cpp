@@ -3,7 +3,8 @@ CFLAGS =  -g -I/usr/local/include -std=c++20
 CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
 CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
 LDFLAGS = -lpaho-mqttpp3 -lpaho-mqtt3a -lpthread
-ifneq ($(findstring microsoft,$(shell uname -r)),microsoft)
+ifeq ($(USE_WS2811),1)
+	CFLAGS += -DUSE_WS2811
 	LDFLAGS += -lws2811
 endif
 SRC_DIR = src
