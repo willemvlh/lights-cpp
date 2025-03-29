@@ -5,6 +5,7 @@
 #include "Mqtt.h"
 #include "Palettes_generated.h"
 #include "Strip.h"
+#include "TimingFunction.h"
 #include "util.h"
 #include <algorithm>
 #include <assert.h>
@@ -180,10 +181,10 @@ void Scheduler::routine8() {
     for (int i : block_sizes) {
       interm.push_back(Utility::divide_blocks(plt, strip->numberOfLeds, i));
     }
-    for(auto it = interm.rbegin(); it != interm.rend(); ++it){
+    for (auto it = interm.rbegin(); it != interm.rend(); ++it) {
       p.push_back(*it);
     }
-    for(auto it = interm.rbegin(); it != interm.rend(); ++it){
+    for (auto it = interm.rbegin(); it != interm.rend(); ++it) {
       p.push_back(*it);
     }
   }
@@ -191,9 +192,18 @@ void Scheduler::routine8() {
   for (auto i = 0; i < p.size(); ++i) {
     strip->fillAll(p[i], 700);
     Utility::wait(200);
-    if((i+1) % 8 == 0){
+    if ((i + 1) % 8 == 0) {
       Logger::log("Palette end, waiting a bit longer", Debug);
       Utility::wait(1200);
     }
+  }
+}
+
+void Scheduler::routine9() {
+  Logger::log("Starting routine9", Debug);
+  for (int i = 1; i < 6; ++i) {
+    EaseInOut t(2);
+    strip->fillAll(Color::Blue, 3000, t);
+    strip->fillAll(Color::Red, 3000, t);
   }
 }

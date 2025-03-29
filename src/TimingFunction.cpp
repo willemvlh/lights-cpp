@@ -13,3 +13,10 @@ int EaseOut::operator()(int step, int totalSteps) const {
   float exp = std::pow(ratio, 1.0 / 1 + factor);
   return std::round(exp * totalSteps);
 }
+
+int EaseInOut::operator()(int step, int totalSteps) const {
+
+  float ratio = static_cast<float>(step) / totalSteps;
+  float exp = std::pow(ratio, ratio < 0.5 ? 1 + factor : 1.0 / 1 + factor);
+  return std::round(exp * totalSteps);
+}

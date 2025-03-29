@@ -12,7 +12,7 @@ private:
   double factor;
 
 public:
-  EaseIn(double factor) : TimingFunction(), factor(factor){};
+  EaseIn(double factor) : TimingFunction(), factor(factor) {};
   int operator()(int step, int totalSteps) const override;
 };
 
@@ -21,11 +21,20 @@ private:
   double factor;
 
 public:
-  EaseOut(double factor) : factor(factor){};
+  EaseOut(double factor) : factor(factor) {};
   int operator()(int step, int totalSteps) const override;
 };
 
 class Linear : public TimingFunction {
 public:
+  int operator()(int step, int totalSteps) const override;
+};
+
+class EaseInOut : public TimingFunction {
+private:
+  double factor;
+
+public:
+  EaseInOut(double factor) : factor(factor) {};
   int operator()(int step, int totalSteps) const override;
 };
