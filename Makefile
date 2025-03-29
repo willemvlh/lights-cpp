@@ -3,9 +3,12 @@ CFLAGS =  -g -I/usr/local/include -std=c++20
 CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
 CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
 LDFLAGS = -lpaho-mqttpp3 -lpaho-mqtt3a -lpthread
-ifeq ($(USE_WS2811),1)
+ifdef USE_WS2811
 	CFLAGS += -DUSE_WS2811
 	LDFLAGS += -lws2811
+endif
+ifdef USE_MQTT
+	CFLAGS += -DUSE_MQTT
 endif
 SRC_DIR = src
 BUILD_DIR = build

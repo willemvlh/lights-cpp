@@ -23,6 +23,10 @@ Scheduler::Scheduler(Strip *strip)
 }
 
 void Scheduler::setup_mqtt() {
+#ifndef USE_MQTT
+  Logger::log("Skipping MQTT setup", Info);
+  return;
+#else
   auto &client = this->mqtt_client;
   auto opts = mqtt::connect_options_builder()
                   .keep_alive_interval(30s)
@@ -37,6 +41,7 @@ void Scheduler::setup_mqtt() {
   }
   std::thread thread(listen, &(this->mqtt_client));
   thread.detach();
+#endif
 }
 
 std::queue<std::string> Scheduler::queue = std::queue<std::string>();
