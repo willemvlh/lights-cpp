@@ -5,6 +5,7 @@
 #include "util.h"
 #include <cassert>
 #include <cwchar>
+#include <iostream>
 #include <sys/types.h>
 
 Effects::Effects(Strip *strip) : _strip(strip) {}
@@ -27,19 +28,6 @@ void Effects::pulse(int durationsInMilliseconds, int iterations) {
     _strip->fillAll(current, durationsInMilliseconds / 2, out);
   }
 };
-
-void Effects::palettes() {
-  /*
-   * This should probably refactored and moved to Scheduler.cpp
-   */
-  
-}
-
-/*
- * Like palettes, but without lateral movement, and with pulsing
- * */
-void Effects::palettes_static() {
-  }
 
 void Effects::wheel(int iterations, bool reverse = false) {
   int direction = reverse ? -1 : 1;
@@ -77,7 +65,7 @@ void Effects::shift() {
 
 void Effects::shiftGradient(int iterations) {
   Color start{255, 0, 0};
-  Color end;
+  Color end{0,0,0};
   EaseOut timing(1.0);
   auto cache = InterpolationCache::current();
   for (int i = 0; i < iterations; i++) {

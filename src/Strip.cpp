@@ -1,6 +1,7 @@
 #include "Strip.h"
 #include "LedState.h"
 #include "TimingFunction.h"
+#include "InterpolationCache.h"
 #include "util.h"
 #include <algorithm>
 #include <chrono>
@@ -21,7 +22,7 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
       std::max(1, durationInMilliseconds); // optimize later if necessary
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
-    interpolations[i] = leds[i].color.interpolate(colors[i], steps);
+    interpolations[i] =InterpolationCache::current().get(leds[i].color, colors[i], steps);
   }
   for (int step = 0; step < steps; step++) {
     for (int i = 0; i < numberOfLeds; i++) {

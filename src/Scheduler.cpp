@@ -1,6 +1,7 @@
 #include "Scheduler.h"
 #include "Color.h"
 #include "Effects.h"
+#include "InterpolationCache.h"
 #include "Logger.h"
 #include "Mqtt.h"
 #include "Palettes_generated.h"
@@ -77,23 +78,32 @@ void Scheduler::run() {
       continue;
     }
     auto x = std::rand() % 7;
-    Logger::log("Starting routine " + std::to_string(x), Info);
+    Logger::log("Starting routine " + std::to_string(x+1), Info);
     switch (x) {
     case 0:
       routine1();
+      break;
     case 1:
       routine2();
+      break;
     case 2:
       routine3();
+      break;
     case 3:
       routine4();
+      break;
     case 4:
       routine5();
+      break;
     case 5:
       routine6();
+      break;
     case 6:
       routine7();
+      break;
     }
+    Logger::log("Cache hit ratio: " + std::to_string(InterpolationCache::current().cacheHitRatio()), Debug);
+    Logger::log("Cache size: " + std::to_string(InterpolationCache::current().size()),Debug);
   }
 }
 
@@ -193,7 +203,6 @@ void Scheduler::routine8() {
     strip->fillAll(p[i], 700);
     Utility::wait(200);
     if ((i + 1) % 8 == 0) {
-      Logger::log("Palette end, waiting a bit longer", Debug);
       Utility::wait(1200);
     }
   }

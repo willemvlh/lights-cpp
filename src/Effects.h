@@ -13,6 +13,4 @@ public:
   void shift();
   void shiftGradient(int);
   void pulse(int durationInMilliseconds, int iterations);
-  void palettes();
-  void palettes_static();
 };

@@ -10,6 +10,9 @@ endif
 ifdef USE_MQTT
 	CFLAGS += -DUSE_MQTT
 endif
+ifdef EXTRA
+	CFLAGS += $(CFLAGS_FULL)
+endif
 SRC_DIR = src
 BUILD_DIR = build
 TEST_DIR = test
