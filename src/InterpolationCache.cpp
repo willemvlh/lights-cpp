@@ -1,6 +1,5 @@
 #include "InterpolationCache.h"
 #include <cstdint>
-#include <iostream>
 #include <vector>
 
 uint64_t getKey(Color from, Color to, uint16_t steps) {

@@ -1,7 +1,7 @@
 CC = clang++-13
-CFLAGS =  -g -I/usr/local/include -std=c++20
-CFLAGS_FULL = -Wall -Wextra -fsanitize=address 
-CFLAGS_TEST = -I src -I lib $(CFLAGS_FULL)
+CFLAGS = -I/usr/local/include -std=c++20
+CFLAGS_DEBUG = -g -Wall -Wextra -fsanitize=address -fsanitize=undefined
+CFLAGS_TEST = -I src -I lib $(CFLAGS_DEBUG)
 LDFLAGS = -lpaho-mqttpp3 -lpaho-mqtt3a -lpthread
 ifdef USE_WS2811
 	CFLAGS += -DUSE_WS2811
@@ -9,9 +9,6 @@ ifdef USE_WS2811
 endif
 ifdef USE_MQTT
 	CFLAGS += -DUSE_MQTT
-endif
-ifdef EXTRA
-	CFLAGS += $(CFLAGS_FULL)
 endif
 SRC_DIR = src
 BUILD_DIR = build
@@ -25,9 +22,6 @@ TARGET = main
 TEST_TARGET = test
 
 all: $(TARGET)
-
-debug: CFLAGS += $(CFLAGS_FULL)
-debug: $(TARGET)
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(BUILD_DIR)/$(TARGET) $(LDFLAGS)
@@ -44,3 +38,5 @@ clean:
 	rm -f $(OBJS) $(BUILD_DIR/$(TARGET))
 	rm -f $(TEST_OBJS) $(BUILD_DIR/$(TARGET))
 
+debug: CFLAGS += $(CFLAGS_DEBUG)
+debug: $(TARGET)
