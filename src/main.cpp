@@ -61,6 +61,8 @@ int main(int argc, char **argv) {
     show.routine8();
   } else if (args.count("--routine9")) {
     show.routine9();
+  } else if (args.count("--routine10")) {
+    show.routine10();
   } else
     show.run();
   delete strip;

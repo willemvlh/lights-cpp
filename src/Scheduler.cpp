@@ -101,6 +101,15 @@ void Scheduler::run() {
     case 6:
       routine7();
       break;
+    case 7:
+      routine8();
+      break;
+    case 8:
+      routine9();
+      break;
+    case 9:
+      routine10();
+      break;
     }
     Logger::log("Cache hit ratio: " + std::to_string(InterpolationCache::current().cacheHitRatio()), Debug);
     Logger::log("Cache size: " + std::to_string(InterpolationCache::current().size()),Debug);
@@ -215,4 +224,14 @@ void Scheduler::routine9() {
     strip->fillAll(Color::Blue, 3000, t);
     strip->fillAll(Color::Red, 3000, t);
   }
+}
+
+void Scheduler::routine10() {
+  Logger::log("Starting routine10", Debug);
+  Gradient grad({Color::Orange, Color::Purple});
+  strip->fillAll(grad, 3000);
+  Utility::wait(120000);
+  Gradient grad2({Color{0x9d, 0, 0xff}, Color{0xff, 0, 0}, Color{0xed, 0xdb, 0x53}});
+  strip->fillAll(grad2, 8000);
+  Utility::wait(120000);
 }
