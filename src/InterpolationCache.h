@@ -22,4 +22,11 @@ public:
   uint64_t cacheHits();
   uint64_t cacheMisses();
   size_t size();
+  size_t sizeBytes() {
+    size_t size = 0;
+    for (auto &pair : colors) {
+      size += pair.second.size() * sizeof(Color);
+    }
+    return size;
+  }
 };

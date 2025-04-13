@@ -113,6 +113,7 @@ void Scheduler::run() {
     }
     Logger::log("Cache hit ratio: " + std::to_string(InterpolationCache::current().cacheHitRatio()), Debug);
     Logger::log("Cache size: " + std::to_string(InterpolationCache::current().size()),Debug);
+    Logger::log("Cache size in bytes: " + std::to_string(InterpolationCache::current().sizeBytes()),Debug);
   }
 }
 
