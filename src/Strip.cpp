@@ -1,7 +1,7 @@
 #include "Strip.h"
+#include "InterpolationCache.h"
 #include "LedState.h"
 #include "TimingFunction.h"
-#include "InterpolationCache.h"
 #include "util.h"
 #include <algorithm>
 #include <chrono>
@@ -22,7 +22,8 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
       std::max(1, durationInMilliseconds); // optimize later if necessary
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
-    interpolations[i] =InterpolationCache::current().get(leds[i].color, colors[i], steps);
+    interpolations[i] =
+        InterpolationCache::current().get(leds[i].color, colors[i], steps);
   }
   for (int step = 0; step < steps; step++) {
     for (int i = 0; i < numberOfLeds; i++) {
@@ -33,7 +34,8 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
                                 // which we skip by doing step+1
     }
     auto start = std::chrono::high_resolution_clock::now();
-    if(shouldRender) render();
+    if (shouldRender)
+      render();
     auto duration = std::chrono::high_resolution_clock::now() - start;
     auto duration_ms =
         std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
@@ -100,9 +102,5 @@ void Strip::fillAll(Gradient gradient, int durationInMilliseconds) {
 }
 void Strip::fillAll(Gradient gradient) { fillAll(gradient, 0); }
 
-void Strip::setRender(bool b){
-    shouldRender = b;
-
-}void Strip::setDelay(bool b){
-    shouldWait = b;
-}
+void Strip::setRender(bool b) { shouldRender = b; }
+void Strip::setDelay(bool b) { shouldWait = b; }

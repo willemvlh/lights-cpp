@@ -4,8 +4,7 @@
 typedef std::vector<std::vector<Color>> Interpolation;
 
 TEST_CASE("InterpolationCache") {
-  auto cache = InterpolationCache::current();
-  cache.clear();
+  InterpolationCache cache;
   CHECK_EQ(0, cache.size());
   auto c = cache.get(Color::Red, Color::Green, 12);
   CHECK_EQ(1, cache.size());
@@ -19,8 +18,7 @@ TEST_CASE("InterpolationCache") {
 }
 
 TEST_CASE("size") {
-  auto cache = InterpolationCache::current();
-  cache.clear();
+  InterpolationCache cache;
   CHECK_EQ(0, cache.size());
   CHECK_EQ(0, cache.sizeBytes());
   auto vec = cache.get(Color::Red, Color::Green, 1);
@@ -28,23 +26,24 @@ TEST_CASE("size") {
   CHECK_EQ(16 + sizeof(std::vector<Color>), cache.sizeBytes());
   cache.get(Color::Red, Color::Green, 1);
   CHECK_EQ(2 * sizeof(Color) + sizeof(Interpolation), cache.sizeBytes());
-  cache.clear();
-  vec = cache.get(Color::Green, Color::Red, 10);
+  InterpolationCache cache2;
+  vec = cache2.get(Color::Green, Color::Red, 10);
   CHECK_EQ(11, vec.size());
-  CHECK_EQ(11 * sizeof(Color) + sizeof(Interpolation), cache.sizeBytes());
-  CHECK_FALSE(cache.isFull());
+  CHECK_EQ(11 * sizeof(Color) + sizeof(Interpolation), cache2.sizeBytes());
+  CHECK_FALSE(cache2.isFull());
 }
 
 
 TEST_CASE("prune"){
-  auto cache = InterpolationCache::current();
-  cache.clear();
+  InterpolationCache cache;
   cache.get(Color::Red, Color::Green, 1);
   cache.get(Color::Orange, Color::Green, 1);
   auto interm_size = cache.sizeBytes();
   cache.get(Color::Yellow, Color::Green, 1);
   CHECK_EQ(3, cache.size());
+  CHECK(cache.sizeBytes() > interm_size);
   cache.prune(interm_size);
+  CHECK(cache.sizeBytes() <= interm_size);
   CHECK_EQ(2, cache.size());
   cache.get(Color::Red, Color::Green, 1);
   CHECK_EQ(3, cache.size());

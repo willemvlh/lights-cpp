@@ -1,6 +1,9 @@
 #include "InterpolationCache.h"
 #include "Logger.h"
+#include <cassert>
+#include <chrono>
 #include <cstdint>
+#include <iostream>
 #include <vector>
 
 uint64_t getKey(Color from, Color to, uint16_t steps) {
@@ -29,44 +32,50 @@ std::vector<Color> InterpolationCache::get(Color from, Color to,
   } else {
     _cacheMisses++;
     auto interp = from.interpolate(to, steps);
+    _sizeBytes += cacheEntrySize(interp);
     interpolationLookupList.emplace_front(
         key, interp); // new lookup, put it in the front of the list
     this->interpolationLookup[key] =
         interpolationLookupList.begin(); // and add it to the cache
-    if (_cacheQueries % 1000 && isFull()) {
+    if (isFull()) {
       Logger::log("Cache size exceeded", Debug);
       Logger::log("Current size: " + std::to_string(this->sizeBytes()), Debug);
       prune(maxSizeBytes / 2);
-      Logger::log("New size: " + std::to_string(this->sizeBytes()), Debug);
       Logger::log("Cache queries: " + std::to_string(_cacheQueries), Debug);
     }
     return this->interpolationLookup[key]->second;
   }
 }
 
-void InterpolationCache::prune(size_t new_size) {
-  size_t current_size = sizeBytes();
-  while (current_size > new_size) {
+void InterpolationCache::prune(size_t newByteSize) {
+  using namespace std::chrono;
+  auto now = high_resolution_clock::now();
+  while (_sizeBytes > newByteSize) {
     auto back = interpolationLookupList.back();
     size_t removed_size = this->cacheEntrySize(back.second);
     interpolationLookupList.pop_back();
+    assert(interpolationLookup.contains(back.first));
     interpolationLookup.erase(back.first);
-    current_size -= removed_size;
+    _sizeBytes -= removed_size;
   }
+    auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - now);
+    Logger::log("Pruned cache in " + std::to_string(duration.count()) + "ms. New size: " + std::to_string(this->sizeBytes()), Debug);
 }
 
-InterpolationCache::InterpolationCache()
-    : interpolationLookup(10000), interpolationLookupList(10000) {};
 
-float InterpolationCache::cacheHitRatio() {
+
+InterpolationCache::InterpolationCache()
+    : interpolationLookup(10000), interpolationLookupList() {};
+
+float InterpolationCache::cacheHitRatio() const {
   if (_cacheQueries == 0)
     return 0;
   return 1 -
          static_cast<float>(_cacheMisses) / static_cast<float>(_cacheQueries);
 }
 
-size_t InterpolationCache::size() { return interpolationLookup.size(); }
-uint64_t InterpolationCache::cacheMisses() { return _cacheMisses; }
-uint64_t InterpolationCache::cacheHits() {
+size_t InterpolationCache::size() const { return interpolationLookup.size(); }
+uint64_t InterpolationCache::cacheMisses() const { return _cacheMisses; }
+uint64_t InterpolationCache::cacheHits() const {
   return _cacheQueries - _cacheMisses;
 }

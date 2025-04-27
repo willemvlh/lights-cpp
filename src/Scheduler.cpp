@@ -110,6 +110,8 @@ void Scheduler::run() {
     case 9:
       routine10();
       break;
+    default:
+      routine1();
     }
     Logger::log("Cache hit ratio: " + std::to_string(InterpolationCache::current().cacheHitRatio()), Debug);
     Logger::log("Cache size: " + std::to_string(InterpolationCache::current().size()),Debug);
@@ -189,7 +191,7 @@ void Scheduler::routine7() {
         Utility::divide_blocks(palette, strip->numberOfLeds);
     strip->fillAll(colors, speed);
 
-    eff.pulse(2900, 12);
+    eff.pulse(4900, 5);
   }
 }
 void Scheduler::routine8() {

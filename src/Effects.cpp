@@ -22,10 +22,9 @@ void Effects::pulse(int durationsInMilliseconds, int iterations) {
   }
 
   for (int i = 0; i < iterations; i++) {
-    EaseIn in(2);
-    EaseOut out(2);
-    _strip->fillAll(darkened, durationsInMilliseconds / 2, in);
-    _strip->fillAll(current, durationsInMilliseconds / 2, out);
+    EaseInOut inOut(2); 
+    _strip->fillAll(darkened, durationsInMilliseconds / 2, inOut);
+    _strip->fillAll(current, durationsInMilliseconds / 2, inOut);
   }
 };
 
@@ -67,7 +66,7 @@ void Effects::shiftGradient(int iterations) {
   Color start{255, 0, 0};
   Color end{0,0,0};
   EaseOut timing(1.0);
-  auto cache = InterpolationCache::current();
+  auto &cache = InterpolationCache::current();
   for (int i = 0; i < iterations; i++) {
     end = start.addHue(Utility::rand_between(31.0, 75.0));
     std::vector<Color> colors = cache.get(start, end, _strip->numberOfLeds);

@@ -1,9 +1,10 @@
+#include "CacheInspector.h"
 #include "Constants.h"
 #include "Effects.h"
+#include "LedStrip.h"
 #include "Logger.h"
 #include "Scheduler.h"
 #include "TerminalStrip.h"
-#include "LedStrip.h"
 #include <cstring>
 #include <iostream>
 #include <string>
@@ -16,6 +17,12 @@ std::unordered_set<std::string> parse_arguments(int argc, char **argv) {
     args.insert(str);
   }
   return args;
+}
+
+void inspectCache() {
+  auto &cache = InterpolationCache::current();
+  CacheInspector inspector(cache);
+  inspector.report();
 }
 
 int main(int argc, char **argv) {
@@ -40,7 +47,8 @@ int main(int argc, char **argv) {
     strip->setRender(false);
   }
   Scheduler show(strip);
-  std::cout << "hello?" << std::endl;
+  std::thread t(inspectCache);
+  t.detach();
   if (args.count("--wheel")) {
     Effects eff(strip);
     eff.wheel(5, false);

@@ -1,7 +1,8 @@
 CC = clang++-13
 CFLAGS = -I/usr/local/include -std=c++20
-CFLAGS_DEBUG = -g -Wall -Wextra -fsanitize=address -fsanitize=undefined
-CFLAGS_TEST = -I src -I lib $(CFLAGS_DEBUG)
+CFLAGS_DEBUG = -g -Wall -Wextra 
+CFLAGS_SANITIZE=-fsanitize=address -fsanitize=undefined
+CFLAGS_TEST = $(CFLAGS_DEBUG) -I src -I lib
 LDFLAGS = -lpaho-mqttpp3 -lpaho-mqtt3a -lpthread
 ifdef USE_WS2811
 	CFLAGS += -DUSE_WS2811

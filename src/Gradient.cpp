@@ -4,7 +4,7 @@
 std::vector<Color> Gradient::gradient_colors(int length) {
   std::vector<Color> vec;
   vec.reserve(length);
-  InterpolationCache cache = InterpolationCache::current();
+  InterpolationCache &cache = InterpolationCache::current();
   auto iter = vec.begin();
   for (size_t i = 0; i < _colors.size() - 1; i++) {
     auto range = cache.get(_colors[i], _colors[i + 1],
