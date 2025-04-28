@@ -1,9 +1,7 @@
 #include "InterpolationCache.h"
 #include "Logger.h"
-#include <cassert>
 #include <chrono>
 #include <cstdint>
-#include <iostream>
 #include <vector>
 
 uint64_t getKey(Color from, Color to, uint16_t steps) {
@@ -54,7 +52,6 @@ void InterpolationCache::prune(size_t newByteSize) {
     auto back = interpolationLookupList.back();
     size_t removed_size = this->cacheEntrySize(back.second);
     interpolationLookupList.pop_back();
-    assert(interpolationLookup.contains(back.first));
     interpolationLookup.erase(back.first);
     _sizeBytes -= removed_size;
   }

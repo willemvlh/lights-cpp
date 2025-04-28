@@ -36,12 +36,15 @@ private:
     }
     }
     if (level <= this->level) {
-      std::cerr << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S")
-                << "  " << level_str << " " << msg << std::endl;
+      if (logTimestamp) {
+        std::cerr << std::put_time(std::localtime(&now_c), "%Y-%m-%d %H:%M:%S");
+      }
+      std::cerr << "  " << level_str << " " << msg << std::endl;
     }
   };
 
 public:
+  bool logTimestamp = false;
   static void setLevel(LogLevel level) { getInstance().level = level; }
   static void log(const std::string msg, LogLevel level) {
     getInstance()._log(msg, level);

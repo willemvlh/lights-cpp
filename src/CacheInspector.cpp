@@ -4,9 +4,9 @@
 
 const void CacheInspector::report() {
   while (1) {
-    Logger::log("__Cache items__: " + std::to_string(cache.size()), Debug);
-    Logger::log("__Current size__: " + std::to_string(cache.sizeBytes()),
+    Logger::log("Cache items: " + std::to_string(cache.size()), Debug);
+    Logger::log("Current size: " + std::to_string(cache.sizeBytes() / 1024) + " KB",
                 Debug);
-    std::this_thread::sleep_for(std::chrono::seconds(10));
+    std::this_thread::sleep_for(std::chrono::seconds(120));
   }
 }
