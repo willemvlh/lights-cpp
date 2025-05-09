@@ -1,6 +1,7 @@
 #include "CacheInspector.h"
 #include "Constants.h"
 #include "Effects.h"
+#include "InterpolationCache.h"
 #include "LedStrip.h"
 #include "Logger.h"
 #include "Scheduler.h"
@@ -40,6 +41,9 @@ int main(int argc, char **argv) {
     std::exit(-1);
 #endif
   }
+  if (args.count("--hue")){
+    InterpolationCache::current().interpolationType = HUE;
+  }
   if (args.count("--no-wait")) {
     strip->setDelay(false);
   }
@@ -71,6 +75,8 @@ int main(int argc, char **argv) {
     show.routine9();
   } else if (args.count("--routine10")) {
     show.routine10();
+  } else if (args.count("--test")) {
+    show.test();
   } else
     show.run();
   delete strip;

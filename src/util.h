@@ -31,12 +31,6 @@ template <typename T> void shiftArrayLeft(std::vector<T> &arr) {
   }
 }
 
-/*
- *[4,3,9,1]
- 4
-
- * */
-
 template <typename T> void shiftArrayRight(std::vector<T> &arr) {
   T prev;
   T current;

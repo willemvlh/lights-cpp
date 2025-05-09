@@ -16,10 +16,12 @@ Strip::Strip(int leds) : numberOfLeds(leds) {
 }
 Strip::~Strip() { delete[] this->leds; };
 
+int numberOfSteps(int durationInMilliseconds) {
+  return std::max(1, durationInMilliseconds / 10);
+}
 void Strip::fillAll(Color *colors, int durationInMilliseconds,
-                    TimingFunction &fn) {
-  int steps =
-      std::max(1, durationInMilliseconds); // optimize later if necessary
+                    const TimingFunction &fn) {
+  int steps = numberOfSteps(durationInMilliseconds);
   auto interpolations = std::vector<std::vector<Color>>(numberOfLeds);
   for (int i = 0; i < numberOfLeds; i++) {
     interpolations[i] =
@@ -50,7 +52,7 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds) {
   fillAll(colors, durationInMilliseconds, t);
 }
 void Strip::fillAll(Color color, int durationInMilliseconds,
-                    TimingFunction &fn) {
+                    const TimingFunction &fn) {
   std::vector<Color> colors(numberOfLeds, color);
   fillAll(colors, durationInMilliseconds, fn);
 }
@@ -75,7 +77,7 @@ void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds) {
 }
 
 void Strip::fillAll(std::vector<Color> colors, int durationInMilliseconds,
-                    TimingFunction &timing) {
+                    const TimingFunction &timing) {
   fillAll(&colors[0], durationInMilliseconds, timing);
 }
 

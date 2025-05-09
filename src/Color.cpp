@@ -162,24 +162,47 @@ void Color::saturate(float f) {
   this->setHSL(hue, sat, hsl.lightness);
 }
 
+std::vector<Color>Color::interpolateHue(Color to, int steps){
+if (steps < 1) {
+    throw std::invalid_argument("steps should be > 0");
+  }
+  auto from_hsl = this->toHSL();
+  auto to_hsl = to.toHSL();
+  float steps_float = static_cast<float>(steps);
+  bool hue_direction = to_hsl.hue > from_hsl.hue;
+  float f_hue = (to_hsl.hue - from_hsl.hue) / steps_float;
+  float f_sat = (to_hsl.saturation - from_hsl.saturation) / steps_float;
+  float f_lig = (to_hsl.lightness - from_hsl.lightness) / steps_float;
+  auto v = std::vector<Color>(steps + 1);
+  v[0] = *this;
+  v[steps] = to;
+  for (int i = 1; i < steps; i++){
+   float hue = std::roundf(from_hsl.hue + f_hue * (i*hue_direction)); 
+   float saturation = (from_hsl.saturation + f_sat * i); 
+   float lightness = (from_hsl.lightness + f_lig * i); 
+   v[i] = Color::fromHSL({hue,saturation,lightness});
+  }
+  return v;
+}
+
 std::vector<Color> Color::interpolate(Color to, int steps) {
   if (steps < 1) {
     throw std::invalid_argument("steps should be > 0");
   }
   float f_steps = static_cast<float>(steps);
   auto v = std::vector<Color>(steps + 1);
-  v[0] = *this;
   float f_red = (to.red - this->red) / f_steps;
   float f_green = (to.green - this->green) / f_steps;
   float f_blue = (to.blue - this->blue) / f_steps;
-  for (int i = 0; i < steps; i++) {
+  v[0] = *this;
+  v[steps] = to;
+  for (int i = 1; i < steps; i++) {
     unsigned char red = std::round(this->red + f_red * i);
     unsigned char green = std::round(this->green + f_green * i);
     unsigned char blue = std::round(this->blue + f_blue * i);
     Color c = {red, green, blue};
     v[i] = c;
   }
-  v[steps] = to;
   return v;
 }
 

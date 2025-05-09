@@ -16,15 +16,15 @@ public:
   void fillAll(Color color);
   void fillAll(uint32_t color);
   void fillAll(Color color, int durationInMilliseconds);
-  void fillAll(Color color, int durationInMilliseconds, TimingFunction &);
+  void fillAll(Color color, int durationInMilliseconds, const TimingFunction &);
   void fillAll(Color *colors);
   void fillAll(Gradient gradient);
   void fillAll(Gradient gradient, int durationInMilliseconds);
   void fillAll(Color *colors, int durationInMilliseconds);
-  void fillAll(Color *colors, int durationInMilliseconds, TimingFunction &);
+  void fillAll(Color *colors, int durationInMilliseconds, const TimingFunction &);
   void fillAll(std::vector<Color> colors, int durationInMilliseconds);
   void fillAll(std::vector<Color> colors, int durationInMilliseconds,
-               TimingFunction &);
+               const TimingFunction &);
   void fillAll(std::vector<Color> colors);
   void fillAll(HSL *hsl, int durationInMilliseconds);
   void setRender(bool);

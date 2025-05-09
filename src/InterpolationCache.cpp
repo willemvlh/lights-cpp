@@ -29,7 +29,8 @@ std::vector<Color> InterpolationCache::get(Color from, Color to,
     return it->second->second;
   } else {
     _cacheMisses++;
-    auto interp = from.interpolate(to, steps);
+    auto interp = interpolationType == HUE ? from.interpolateHue(to, steps)
+                                           : from.interpolate(to, steps);
     _sizeBytes += cacheEntrySize(interp);
     interpolationLookupList.emplace_front(
         key, interp); // new lookup, put it in the front of the list
@@ -55,11 +56,12 @@ void InterpolationCache::prune(size_t newByteSize) {
     interpolationLookup.erase(back.first);
     _sizeBytes -= removed_size;
   }
-    auto duration = duration_cast<milliseconds>(high_resolution_clock::now() - now);
-    Logger::log("Pruned cache in " + std::to_string(duration.count()) + "ms. New size: " + std::to_string(this->sizeBytes()), Debug);
+  auto duration =
+      duration_cast<milliseconds>(high_resolution_clock::now() - now);
+  Logger::log("Pruned cache in " + std::to_string(duration.count()) +
+                  "ms. New size: " + std::to_string(this->sizeBytes()),
+              Debug);
 }
-
-
 
 InterpolationCache::InterpolationCache()
     : interpolationLookup(10000), interpolationLookupList() {};

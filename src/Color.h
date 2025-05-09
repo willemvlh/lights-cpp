@@ -17,7 +17,7 @@ public:
   unsigned char blue;
   /*By storing the hue, it is possible to completely darken or desaturate a color and restore it later*/
 
-  float hue = -1.0;
+  float hue = -1.0; //do we use this?
 
   void setHSL(float, float, float);
   void setRGB(unsigned char, unsigned char, unsigned char);
@@ -31,6 +31,7 @@ public:
 
   Color addHue(float hue);
   std::vector<Color> interpolate(Color to, int steps);
+  std::vector<Color> interpolateHue(Color to, int steps);
   // operators
 
   friend std::ostream &operator<<(std::ostream &os, const Color &color);

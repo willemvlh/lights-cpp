@@ -6,6 +6,8 @@
 #include <vector>
 
 class CacheInspector; // forward declaration
+                      //
+enum InterpolationType { LINEAR, HUE };
 
 class InterpolationCache {
   using ListIt = std::list<std::pair<uint64_t, std::vector<Color>>>::iterator;
@@ -16,7 +18,7 @@ private:
   uint64_t _cacheQueries = 0;
   uint64_t _cacheMisses = 0;
   static std::unique_ptr<InterpolationCache> theInstance;
-  InterpolationCache(const InterpolationCache&) = delete;
+  InterpolationCache(const InterpolationCache &) = delete;
   size_t maxSizeBytes = 50000000; // 50M
   size_t cacheEntrySize(std::vector<Color> &vec) {
     return vec.capacity() * sizeof(Color) + sizeof(vec);
@@ -27,6 +29,7 @@ public:
   InterpolationCache();
   std::vector<Color> get(Color from, Color to, uint16_t steps);
   static InterpolationCache &current();
+  InterpolationType interpolationType = LINEAR;
   float cacheHitRatio() const;
   uint64_t cacheHits() const;
   uint64_t cacheMisses() const;

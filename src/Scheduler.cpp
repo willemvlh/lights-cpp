@@ -78,7 +78,7 @@ void Scheduler::run() {
       continue;
     }
     auto x = std::rand() % 7;
-    Logger::log("Starting routine " + std::to_string(x+1), Info);
+    Logger::log("Starting routine " + std::to_string(x + 1), Info);
     switch (x) {
     case 0:
       routine1();
@@ -113,9 +113,16 @@ void Scheduler::run() {
     default:
       routine1();
     }
-    Logger::log("Cache hit ratio: " + std::to_string(InterpolationCache::current().cacheHitRatio()), Debug);
-    Logger::log("Cache size: " + std::to_string(InterpolationCache::current().size()),Debug);
-    Logger::log("Cache size in bytes: " + std::to_string(InterpolationCache::current().sizeBytes()),Debug);
+    Logger::log(
+        "Cache hit ratio: " +
+            std::to_string(InterpolationCache::current().cacheHitRatio()),
+        Debug);
+    Logger::log("Cache size: " +
+                    std::to_string(InterpolationCache::current().size()),
+                Debug);
+    Logger::log("Cache size in bytes: " +
+                    std::to_string(InterpolationCache::current().sizeBytes()),
+                Debug);
   }
 }
 
@@ -234,7 +241,28 @@ void Scheduler::routine10() {
   Gradient grad({Color::Orange, Color::Purple});
   strip->fillAll(grad, 3000);
   Utility::wait(120000);
-  Gradient grad2({Color{0x9d, 0, 0xff}, Color{0xff, 0, 0}, Color{0xed, 0xdb, 0x53}});
+  Gradient grad2(
+      {Color{0x9d, 0, 0xff}, Color{0xff, 0, 0}, Color{0xed, 0xdb, 0x53}});
   strip->fillAll(grad2, 8000);
   Utility::wait(120000);
+}
+
+void Scheduler::test() {
+  Logger::log("Starting test routine", Debug);
+  Gradient gradient(
+      {Color::Orange, Color::Magenta, Color::Fuchsia, Color::Orange});
+  strip->fillAll(gradient, 2000);
+  std::vector<Color> colors = strip->colors();
+  for (int i = 0; i < 1000; i++) {
+    for (int y = 0; y < i; y++) {
+      Utility::shiftArrayLeft(colors);
+      strip->fillAll(colors, 50 - (i / 20));
+    }
+  }
+
+  Logger::log("OK", Debug);
+  for (int i = 0; i < 10000; i++) {
+    Utility::shiftArrayLeft(colors);
+    strip->fillAll(colors, 10);
+  }
 }

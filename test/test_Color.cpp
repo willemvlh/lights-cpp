@@ -68,3 +68,12 @@ TEST_CASE("Color::lighten"){
     CHECK_EQ(doctest::Approx(0.5).epsilon(0.01), color.toHSL().lightness);
 }
 
+TEST_CASE("interpolateHue"){
+  Color color = Color::fromHSL({100.0,0.4,0.4});
+  Color to = Color::fromHSL({150,0.4,0.4});
+  auto interp = color.interpolateHue(to, 2);
+  CHECK_EQ(3,interp.size());
+  CHECK_EQ(color, interp[0]);
+  CHECK_EQ(doctest::Approx(125.0).epsilon(0.5), interp[1].toHSL().hue);
+  CHECK_EQ(to, interp[2]);
+}
