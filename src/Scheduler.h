@@ -29,6 +29,7 @@ public:
   void routine9();
   void routine10();
   void test();
+  void perf();
   static void enqueue(std::string);
   void run();
 };

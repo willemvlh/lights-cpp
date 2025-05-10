@@ -10,6 +10,7 @@
 #include "util.h"
 #include <algorithm>
 #include <assert.h>
+#include <chrono>
 #include <cstdlib>
 #include <ctime>
 #include <mqtt/connect_options.h>
@@ -245,6 +246,30 @@ void Scheduler::routine10() {
       {Color{0x9d, 0, 0xff}, Color{0xff, 0, 0}, Color{0xed, 0xdb, 0x53}});
   strip->fillAll(grad2, 8000);
   Utility::wait(120000);
+}
+
+void Scheduler::perf() {
+  Logger::log("Starting performance test", Debug);
+  std::vector<Color> colors{Color::Red,    Color::Fuchsia, Color::Purple,
+                            Color::Orange, Color::Magenta, Color::Brown,
+                            Color::Teal,   Color::Yellow};
+  std::vector<Color> leds{};
+  std::vector<Color> leds_reverse{};
+  for (int i = 0; i < strip->numberOfLeds; i++) {
+    leds.push_back(colors[i % colors.size()]);
+    leds_reverse.push_back(colors[colors.size() - 1 - (i % colors.size())]);
+  }
+  Logger::log("Scheduled time = 30s", Debug);
+
+  auto now = std::chrono::high_resolution_clock::now();
+  for (int i = 0; i < 15; i++) {
+    strip->fillAll(leds, 1000);
+    strip->fillAll(leds_reverse, 1000);
+  }
+  auto duration = std::chrono::high_resolution_clock::now() - now;
+  auto duration_ms =
+      std::chrono::duration_cast<std::chrono::milliseconds>(duration).count();
+  Logger::log("Actual duration = " + std::to_string(duration_ms) + "ms", Debug);
 }
 
 void Scheduler::test() {

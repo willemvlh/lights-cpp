@@ -19,6 +19,7 @@ Strip::~Strip() { delete[] this->leds; };
 int numberOfSteps(int durationInMilliseconds) {
   return std::max(1, durationInMilliseconds / 10);
 }
+
 void Strip::fillAll(Color *colors, int durationInMilliseconds,
                     const TimingFunction &fn) {
   int steps = numberOfSteps(durationInMilliseconds);
@@ -30,10 +31,10 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
   for (int step = 0; step < steps; step++) {
     for (int i = 0; i < numberOfLeds; i++) {
       int timingAdaptedStep = fn(step, steps);
-      leds[i].color =
+      leds[i].setColor(
           interpolations[i][timingAdaptedStep +
-                            1]; // interpolation includes starting color,
-                                // which we skip by doing step+1
+                            1]); // interpolation includes starting color,
+                                 // which we skip by doing step+1
     }
     auto start = std::chrono::high_resolution_clock::now();
     if (shouldRender)

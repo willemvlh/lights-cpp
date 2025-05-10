@@ -77,6 +77,8 @@ int main(int argc, char **argv) {
     show.routine10();
   } else if (args.count("--test")) {
     show.test();
+  } else if (args.count("--perf")) {
+    show.perf();
   } else
     show.run();
   delete strip;
