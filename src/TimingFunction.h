@@ -4,7 +4,7 @@
 #include <cstdio>
 class TimingFunction {
 public:
-  virtual int operator()(int step, int totalSteps) const = 0;
+  virtual float operator()(float t) const = 0;
 };
 
 class EaseIn : public TimingFunction {
@@ -13,7 +13,7 @@ private:
 
 public:
   EaseIn(double factor) : TimingFunction(), factor(factor) {};
-  int operator()(int step, int totalSteps) const override;
+  float operator()(float t) const override;
 };
 
 class EaseOut : public TimingFunction {
@@ -22,12 +22,12 @@ private:
 
 public:
   EaseOut(double factor) : factor(factor) {};
-  int operator()(int step, int totalSteps) const override;
+  float operator()(float t) const override;
 };
 
 class Linear : public TimingFunction {
 public:
-  int operator()(int step, int totalSteps) const override;
+  float operator()(float t) const override;
 };
 
 class EaseInOut : public TimingFunction {
@@ -36,5 +36,5 @@ private:
 
 public:
   EaseInOut(double factor) : factor(factor) {};
-  int operator()(int step, int totalSteps) const override;
+  float operator()(float t) const override;
 };

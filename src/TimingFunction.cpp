@@ -1,22 +1,13 @@
 #include "TimingFunction.h"
 
-int Linear::operator()(int step, int) const { return step; };
+float Linear::operator()(float t) const { return t; };
 
-int EaseIn::operator()(int step, int totalSteps) const {
-  float ratio = static_cast<float>(step) / totalSteps;
-  float exp = std::pow(ratio, 1 + factor);
-  return std::round(exp * totalSteps);
+float EaseIn::operator()(float t) const { return t * t; }
+
+float EaseOut::operator()(float t) const {
+  return 1.0f - (1.0f - t) * (1.0f - t);
 }
 
-int EaseOut::operator()(int step, int totalSteps) const {
-  float ratio = static_cast<float>(step) / totalSteps;
-  float exp = std::pow(ratio, 1.0 / 1 + factor);
-  return std::round(exp * totalSteps);
-}
-
-int EaseInOut::operator()(int step, int totalSteps) const {
-
-  float ratio = static_cast<float>(step) / totalSteps;
-  float exp = std::pow(ratio, ratio < 0.5 ? 1 + factor : 1.0 / 1 + factor);
-  return std::round(exp * totalSteps);
+float EaseInOut::operator()(float t) const {
+  return t < 0.5f ? 2.0f * t * t : 1.0f - 2.0f * (1.0f - t) * (1.0f - t);
 }

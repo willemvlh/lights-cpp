@@ -30,9 +30,10 @@ void Strip::fillAll(Color *colors, int durationInMilliseconds,
   }
   for (int step = 0; step < steps; step++) {
     for (int i = 0; i < numberOfLeds; i++) {
-      int timingAdaptedStep = fn(step, steps);
+      float factor = fn(float(step) / float(steps));
+      int interpolationOffset = int(std::round((float(steps) * factor)));
       leds[i].setColor(
-          interpolations[i][timingAdaptedStep +
+          interpolations[i][interpolationOffset +
                             1]); // interpolation includes starting color,
                                  // which we skip by doing step+1
     }

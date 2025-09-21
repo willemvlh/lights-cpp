@@ -5,7 +5,6 @@
 #include "util.h"
 #include <cassert>
 #include <cwchar>
-#include <iostream>
 #include <sys/types.h>
 
 Effects::Effects(Strip *strip) : _strip(strip) {}

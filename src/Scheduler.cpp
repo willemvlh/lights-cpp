@@ -272,6 +272,10 @@ void Scheduler::perf() {
   Logger::log("Actual duration = " + std::to_string(duration_ms) + "ms", Debug);
 }
 
+void Scheduler::color(Color color){
+  strip->fillAll(color);
+}
+
 void Scheduler::test() {
   Logger::log("Starting test routine", Debug);
   Gradient gradient(

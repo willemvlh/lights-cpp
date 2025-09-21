@@ -32,4 +32,5 @@ public:
   void perf();
   static void enqueue(std::string);
   void run();
+  void color(Color);
 };
